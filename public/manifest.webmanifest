@@ -1,0 +1,24 @@
+{
+  "short_name": "Grainy gradients",
+  "name": "Grainy gradients",
+  "description": "CSS Noise gradients",
+  "icons": [
+    {
+      "src": "/static/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#333",
+  "display": "browser",
+  "scope": "/",
+  "theme_color": "#333333"
+}
