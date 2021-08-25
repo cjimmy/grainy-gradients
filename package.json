@@ -1,5 +1,6 @@
 {
   "name": "grainy-gradients",
+  "author": "Jimmy Chion",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,6 +10,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "antd": "^4.16.13",
+    "highlight.js": "^11.2.0",
+    "react": "17.0.2",
+    "react-color": "^2.19.3",
+    "react-dom": "17.0.2",
+    "react-simple-code-editor": "^0.11.0",
+    "zustand": "^3.5.9"
+  },
+  "devDependencies": {
     "@babel/core": "^7.15.0",
     "@types/node": "^16.6.2",
     "@types/react": "^17.0.19",
@@ -16,6 +26,8 @@
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
     "babel-plugin-styled-components": "^1.13.2",
+    "eslint": "^7.32.0",
+    "eslint-config-next": "11.1.0",
     "eslint-plugin-import": "^2.24.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.4.0",
@@ -23,13 +35,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "next": "11.1.0",
     "prettier": "^2.3.2",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
     "styled-components": "^5.3.0",
     "typescript": "^4.3.5"
-  },
-  "devDependencies": {
-    "eslint": "^7.32.0",
-    "eslint-config-next": "11.1.0"
   }
 }
