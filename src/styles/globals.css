@@ -4,8 +4,8 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background-color: #1E1E1E;
-  color: white;
+  background-color: #eee;
+  color: #1e1e1e;
 }
 
 * {
@@ -17,4 +17,13 @@ pre {
   padding: 12px;
   word-wrap: break-word;
   margin: 0;
+}
+
+.hljs {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+h2 {
+  margin-top: 2em;
 }

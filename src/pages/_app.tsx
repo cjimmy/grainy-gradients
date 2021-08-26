@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import React from 'react';
-import 'antd/dist/antd.dark.css';
+import 'antd/dist/antd.css';
 import 'highlight.js/styles/base16/outrun-dark.css';
 import '~/styles/globals.css';
 

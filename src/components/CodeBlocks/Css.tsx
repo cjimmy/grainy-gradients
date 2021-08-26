@@ -1,66 +1,96 @@
-import { Form } from 'antd';
+import { Form, Switch, Button, Popover, Select } from 'antd';
 import hljs from 'highlight.js/lib/core';
-import cssLang from 'highlight.js/lib/languages/css';
 import { useEffect, useState } from 'react';
+import { ChromePicker } from 'react-color';
 import styled from 'styled-components';
 import shallow from 'zustand/shallow';
+import { rgbToString } from './Output';
 import SliderInput from './SliderInput';
-import { Row, LeftCol, RightCol } from '~/components/layout';
 import { useInputStore } from '~/components/store';
-hljs.registerLanguage('css', cssLang);
 
-export const CssSection = () => {
-  const [cssProps, setCssProps] = useInputStore(
-    (state) => [state.cssProps, state.setCssProps],
+export const CssControls = () => {
+  const [setCssProps, filterProps] = useInputStore(
+    (state) => [state.setCssProps, state.filterProps],
     shallow
   );
-  const [contrast, setContrast] = useState(170);
-  const [brightness, setBrightness] = useState(1000);
-  const [angle, setAngle] = useState(20);
-  const [gradientType, setGradientType] = useState('linear-gradient');
-  const [color1, setColor1] = useState('blue');
-  const [color2, setColor2] = useState('transparent');
+  const { brightness, contrast } = filterProps;
+  const [angle, setAngle] = useState(112);
+  const [showTransparency, setShowTransparency] = useState(true);
+  const [gradientType, setGradientType] = useState('linear');
+  const [color1, setColor1] = useState({ r: 0, g: 0, b: 255, a: 1 });
+  const [color2, setColor2] = useState({ r: 0, g: 0, b: 255, a: 0 });
 
   useEffect(() => {
     setCssProps({
       gradientType,
-      color1,
-      color2,
-      contrast,
-      brightness,
+      color1: color1,
+      color2: color2,
       angle,
+      showTransparency,
     });
-  }, [setCssProps, contrast, brightness, angle, gradientType, color1, color2]);
+  }, [setCssProps, showTransparency, contrast, brightness, angle, gradientType, color1, color2]);
 
+  const angleOrPos =
+    gradientType === 'linear'
+      ? `${angle}deg`
+      : gradientType === 'radial'
+      ? 'circle at center'
+      : `from ${angle}deg`;
   const gradientCss = `/* css gradient: second layer */
 {
   width: 250px;
   height: 250px;
-  background: ${gradientType}(${angle}deg, ${color1}, ${color2}), url(/checkers.png);
+  background: ${gradientType}-gradient(${angleOrPos}, ${rgbToString(color1)}, ${rgbToString(
+    color2
+  )})${showTransparency ? ', url(/checkers.png)' : ''};
   /* filter: contrast(${contrast}%) brightness(${brightness}%); */
 }`;
   return (
-    <Row>
-      <LeftCol>
-        <Form labelCol={{ span: 3 }}>
-          <SliderInput
-            label="contrast"
-            name="contrast"
-            min={0}
-            max={1000}
-            step={10}
-            onChange={(val: number) => setContrast(val)}
-            value={typeof contrast === 'number' ? contrast : 10}
-          />
-          <SliderInput
-            label="brightness"
-            name="brightness"
-            min={0}
-            max={5000}
-            step={50}
-            onChange={(val: number) => setBrightness(val)}
-            value={typeof brightness === 'number' ? brightness : 0}
-          />
+    <div>
+      <pre className="hljs">
+        <code
+          dangerouslySetInnerHTML={{
+            __html: hljs.highlight(gradientCss, { language: 'css' }).value,
+          }}
+        />
+      </pre>
+      <Form>
+        <GradientControls>
+          <div>
+            <Form.Item label="Gradient type">
+              <Select
+                value={gradientType}
+                onChange={(v) => setGradientType(v)}
+                style={{ width: 120 }}
+              >
+                <Select.Option value="linear">linear</Select.Option>
+                <Select.Option value="radial">radial</Select.Option>
+                <Select.Option value="conic">conic</Select.Option>
+              </Select>
+            </Form.Item>
+          </div>
+          <ColorPick>
+            <Popover
+              placement="bottom"
+              style={{ padding: 0 }}
+              content={<ChromePicker color={color1} onChange={(c) => setColor1(c.rgb)} />}
+              trigger="click"
+            >
+              <Button>Color 1</Button>
+            </Popover>
+          </ColorPick>
+          <ColorPick>
+            <Popover
+              placement="bottom"
+              content={<ChromePicker color={color2} onChange={(c) => setColor2(c.rgb)} />}
+              trigger="click"
+            >
+              <Button>Color 2</Button>
+            </Popover>
+          </ColorPick>
+        </GradientControls>
+
+        {['linear', 'conic'].includes(gradientType) && (
           <SliderInput
             label="angle"
             name="angle"
@@ -69,22 +99,33 @@ export const CssSection = () => {
             onChange={(val: number) => setAngle(val)}
             value={typeof angle === 'number' ? angle : 0}
           />
-        </Form>
-        <pre className="hljs">
-          <code
-            dangerouslySetInnerHTML={{
-              __html: hljs.highlight(gradientCss, { language: 'css' }).value,
-            }}
+        )}
+        {/* {['radial', 'conic'].includes(gradientType) && (
+          <SliderInput
+            label="position"
+            name="position"
+            min={0}
+            max={360}
+            onChange={(val: number) => setPosition(val)}
+            value={typeof position === 'number' ? position : 0}
           />
-        </pre>{' '}
-      </LeftCol>
-      <RightCol>
-        <Gradient css={gradientCss} />
-      </RightCol>
-    </Row>
+        )} */}
+        <Form.Item label="Show checkered">
+          <Switch
+            size="small"
+            checked={showTransparency}
+            onChange={(e) => setShowTransparency(e)}
+          />
+        </Form.Item>
+      </Form>
+    </div>
   );
 };
 
-const Gradient = styled.div`
-  ${(p) => p.css}
+const GradientControls = styled.div`
+  display: flex;
+`;
+
+const ColorPick = styled.div`
+  margin-left: 15px;
 `;

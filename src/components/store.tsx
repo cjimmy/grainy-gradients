@@ -3,10 +3,12 @@
 import create from 'zustand';
 
 export type InputState = {
-  svgProps: any;
+  svgProps: Record<string, number>;
   setSvgProps: ({ size, baseFrequency, numOctaves }) => void;
-  cssProps: any;
-  setCssProps: ({ gradientType, angle, color1, color2, contrast, brightness }) => void;
+  cssProps: Record<string, any>;
+  setCssProps: ({ gradientType, angle, color1, color2, showTransparency }) => void;
+  filterProps: Record<string, number | boolean>;
+  setFilterProps: ({ contrast, brightness, inlineSvg }) => void;
 };
 
 export const useInputStore = create<InputState>((set) => ({
@@ -22,14 +24,22 @@ export const useInputStore = create<InputState>((set) => ({
 
   cssProps: {
     gradientType: 'linear-gradient',
-    angle: 20,
-    color1: 'blue',
-    color2: 'transparent',
+    angle: 112,
+    color1: { r: 0, g: 0, b: 255, a: 1 },
+    color2: { r: 0, g: 0, b: 0, a: 0 },
+    showTransparency: true,
+  },
+  setCssProps: ({ gradientType, angle, color1, color2, showTransparency }) =>
+    set({
+      cssProps: { gradientType, angle, color1, color2, showTransparency },
+    }),
+  filterProps: {
     contrast: 170,
     brightness: 1000,
+    inlineSvg: false,
   },
-  setCssProps: ({ gradientType, angle, color1, color2, contrast, brightness }) =>
+  setFilterProps: ({ contrast, brightness, inlineSvg }) =>
     set({
-      cssProps: { gradientType, angle, color1, color2, contrast, brightness },
+      filterProps: { contrast, brightness, inlineSvg },
     }),
 }));

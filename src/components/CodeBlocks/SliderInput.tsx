@@ -2,12 +2,19 @@ import { Form, Slider, InputNumber } from 'antd';
 import styled from 'styled-components';
 
 const SliderInput = (props) => {
-  const { label, name, onChange, value, min, max, step } = props;
+  const { label, name, onChange, value, min, max, step, tipFormatter } = props;
   return (
-    <Form.Item label={label} name={name}>
+    <Form.Item label={label} name={name} style={{ width: '100%', margin: 0 }}>
       <SliderAndInput>
         <SliderContainer>
-          <Slider step={step} min={min} max={max} onChange={onChange} value={value} />
+          <Slider
+            tipFormatter={tipFormatter}
+            step={step}
+            min={min}
+            max={max}
+            onChange={onChange}
+            value={value}
+          />
         </SliderContainer>
         <InputNumber
           step={step}
@@ -24,7 +31,7 @@ const SliderInput = (props) => {
 export default SliderInput;
 
 const SliderContainer = styled.div`
-  width: 50%;
+  width: 40%;
 `;
 
 const SliderAndInput = styled.div`
