@@ -5,6 +5,7 @@ import { ChromePicker } from 'react-color';
 import styled from 'styled-components';
 import shallow from 'zustand/shallow';
 import { rgbToString } from './Output';
+import { SectionTitle } from './SectionTitle';
 import SliderInput from './SliderInput';
 import { useInputStore } from '~/components/store';
 
@@ -63,6 +64,8 @@ export const CssControls = () => {
 }`;
   return (
     <div>
+      <SectionTitle title="2. CSS Gradient" />
+
       <pre className="hljs">
         <code
           dangerouslySetInnerHTML={{

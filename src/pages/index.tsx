@@ -16,11 +16,8 @@ const IndexPage = () => {
           <Scroll>
             <Space h={30} />
             <h1>Grainy Gradient playground</h1>
-            <h2>1. SVG</h2>
             <SvgControls />
-            <h2>2. CSS Gradient</h2>
             <CssControls />
-            <h2>3. CSS Filter</h2>
             <FilterControls />
             <Space h={60} />
           </Scroll>

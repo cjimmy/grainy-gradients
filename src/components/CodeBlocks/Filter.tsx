@@ -1,12 +1,11 @@
 import { Form, Switch } from 'antd';
 import hljs from 'highlight.js/lib/core';
-import cssLang from 'highlight.js/lib/languages/css';
 import { useEffect, useState } from 'react';
 import shallow from 'zustand/shallow';
 import { symbols, rgbToString } from './Output';
+import { SectionTitle } from './SectionTitle';
 import SliderInput from './SliderInput';
 import { useInputStore } from '~/components/store';
-hljs.registerLanguage('css', cssLang);
 
 export const FilterControls = () => {
   const [svgProps, cssProps, setFilterProps] = useInputStore(
@@ -51,6 +50,8 @@ export const FilterControls = () => {
 
   return (
     <div>
+      <SectionTitle title="3. SVG + Gradient + CSSfilter" copyText={resultCssDisplay} />
+
       <pre className="hljs">
         <code
           dangerouslySetInnerHTML={{

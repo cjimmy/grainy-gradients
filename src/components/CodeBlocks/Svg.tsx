@@ -2,6 +2,7 @@ import { Form } from 'antd';
 import hljs from 'highlight.js/lib/core';
 import { useEffect, useState } from 'react';
 import shallow from 'zustand/shallow';
+import { SectionTitle } from './SectionTitle';
 import SliderInput from './SliderInput';
 import { useInputStore } from '~/components/store';
 
@@ -31,6 +32,7 @@ export const SvgControls = () => {
 
   return (
     <div>
+      <SectionTitle title="1. SVG" copyText={svgString} />
       <pre className="hljs">
         <code
           dangerouslySetInnerHTML={{
