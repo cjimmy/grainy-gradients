@@ -12,14 +12,14 @@ const Output = () => {
     shallow
   );
   const { size, baseFrequency, numOctaves } = svgProps;
-  const { gradientType, color1, color2, angle, showTransparency } = cssProps;
+  const { gradientType, color1, color2, angle, showTransparency, posX, posY } = cssProps;
   const { brightness, contrast } = filterProps;
   const gradientFirstParam =
     gradientType === 'linear'
       ? `${angle}deg`
       : gradientType === 'radial'
-      ? 'circle at center'
-      : `from ${angle}deg`;
+      ? `circle at ${posX}% ${posY}%`
+      : `from ${angle}deg at ${posX}% ${posY}%`;
   const svgString = `<!-- svg: first layer -->
 <svg viewBox='0 0 ${size} ${size}' xmlns='http://www.w3.org/2000/svg'>
   <filter id='noiseFilter'>

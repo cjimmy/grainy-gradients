@@ -22,6 +22,7 @@ const SliderInput = (props) => {
           min={min}
           value={value}
           onChange={onChange}
+          formatter={tipFormatter}
         />
       </SliderAndInput>
     </Form.Item>

@@ -26,13 +26,13 @@ export const FilterControls = () => {
     });
   }, [setFilterProps, contrast, brightness, inlineSvg]);
 
-  const { gradientType, angle, color1, color2 } = cssProps;
+  const { gradientType, angle, color1, color2, posX, posY } = cssProps;
   const gradientFirstParam =
     gradientType === 'linear'
       ? `${angle}deg`
       : gradientType === 'radial'
-      ? 'circle at center'
-      : `from ${angle}deg`;
+      ? `circle at ${posX}% ${posY}%`
+      : `from ${angle}deg at ${posX}% ${posY}%`;
   const cleanSvgString = `<svg viewBox='0 0 ${size} ${size}' xmlns='http://www.w3.org/2000/svg'><filter id='noiseFilter'><feTurbulence type='fractalNoise' baseFrequency='${baseFrequency}' numOctaves='${numOctaves}' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(#noiseFilter)'/></svg>`;
   const inlineSvgString = `url("data:image/svg+xml,${cleanSvgString.replace(
     symbols,
@@ -58,7 +58,7 @@ export const FilterControls = () => {
           }}
         />
       </pre>
-      <Form labelCol={{ span: 4 }}>
+      <Form>
         <SliderInput
           label="contrast"
           name="contrast"

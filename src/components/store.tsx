@@ -6,7 +6,7 @@ export type InputState = {
   svgProps: Record<string, number>;
   setSvgProps: ({ size, baseFrequency, numOctaves }) => void;
   cssProps: Record<string, any>;
-  setCssProps: ({ gradientType, angle, color1, color2, showTransparency }) => void;
+  setCssProps: ({ gradientType, angle, color1, color2, showTransparency, posX, posY }) => void;
   filterProps: Record<string, number | boolean>;
   setFilterProps: ({ contrast, brightness, inlineSvg }) => void;
 };
@@ -28,10 +28,12 @@ export const useInputStore = create<InputState>((set) => ({
     color1: { r: 0, g: 0, b: 255, a: 1 },
     color2: { r: 0, g: 0, b: 0, a: 0 },
     showTransparency: true,
+    posX: 50,
+    posY: 50,
   },
-  setCssProps: ({ gradientType, angle, color1, color2, showTransparency }) =>
+  setCssProps: ({ gradientType, angle, color1, color2, showTransparency, posX, posY }) =>
     set({
-      cssProps: { gradientType, angle, color1, color2, showTransparency },
+      cssProps: { gradientType, angle, color1, color2, showTransparency, posX, posY },
     }),
   filterProps: {
     contrast: 170,

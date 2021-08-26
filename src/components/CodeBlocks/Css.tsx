@@ -15,6 +15,8 @@ export const CssControls = () => {
   );
   const { brightness, contrast } = filterProps;
   const [angle, setAngle] = useState(112);
+  const [posX, setPosX] = useState(50);
+  const [posY, setPosY] = useState(50);
   const [showTransparency, setShowTransparency] = useState(true);
   const [gradientType, setGradientType] = useState('linear');
   const [color1, setColor1] = useState({ r: 0, g: 0, b: 255, a: 1 });
@@ -27,20 +29,34 @@ export const CssControls = () => {
       color2: color2,
       angle,
       showTransparency,
+      posX,
+      posY,
     });
-  }, [setCssProps, showTransparency, contrast, brightness, angle, gradientType, color1, color2]);
+  }, [
+    setCssProps,
+    showTransparency,
+    contrast,
+    brightness,
+    angle,
+    gradientType,
+    color1,
+    color2,
+    posX,
+    posY,
+  ]);
 
-  const angleOrPos =
+  const gradientFirstParam =
     gradientType === 'linear'
       ? `${angle}deg`
       : gradientType === 'radial'
-      ? 'circle at center'
-      : `from ${angle}deg`;
+      ? `circle at ${posX}% ${posY}%`
+      : `from ${angle}deg at ${posX}% ${posY}%`;
+
   const gradientCss = `/* css gradient: second layer */
 {
   width: 250px;
   height: 250px;
-  background: ${gradientType}-gradient(${angleOrPos}, ${rgbToString(color1)}, ${rgbToString(
+  background: ${gradientType}-gradient(${gradientFirstParam}, ${rgbToString(color1)}, ${rgbToString(
     color2
   )})${showTransparency ? ', url(/checkers.png)' : ''};
   /* filter: contrast(${contrast}%) brightness(${brightness}%); */
@@ -96,20 +112,31 @@ export const CssControls = () => {
             name="angle"
             min={0}
             max={360}
+            tipFormatter={(v) => `${v}°`}
             onChange={(val: number) => setAngle(val)}
             value={typeof angle === 'number' ? angle : 0}
           />
         )}
-        {/* {['radial', 'conic'].includes(gradientType) && (
-          <SliderInput
-            label="position"
-            name="position"
-            min={0}
-            max={360}
-            onChange={(val: number) => setPosition(val)}
-            value={typeof position === 'number' ? position : 0}
-          />
-        )} */}
+        {['radial', 'conic'].includes(gradientType) && (
+          <>
+            <SliderInput
+              label="position X"
+              name="position X"
+              min={-50}
+              max={150}
+              onChange={(val: number) => setPosX(val)}
+              value={typeof posX === 'number' ? posX : 0}
+            />
+            <SliderInput
+              label="position Y"
+              name="position Y"
+              min={-50}
+              max={150}
+              onChange={(val: number) => setPosY(val)}
+              value={typeof posY === 'number' ? posY : 0}
+            />
+          </>
+        )}
         <Form.Item label="Show checkered">
           <Switch
             size="small"

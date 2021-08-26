@@ -38,7 +38,7 @@ export const SvgControls = () => {
           }}
         />
       </pre>
-      <Form labelCol={{ span: 4 }}>
+      <Form>
         <SliderInput
           label="SVG size"
           name="size"
