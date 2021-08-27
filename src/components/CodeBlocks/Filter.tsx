@@ -74,7 +74,7 @@ export const FilterControls = () => {
           label="brightness"
           name="brightness"
           min={100}
-          max={5000}
+          max={1500}
           step={50}
           tipFormatter={(v) => `${v}%`}
           onChange={(val: number) => setBrightness(val)}
