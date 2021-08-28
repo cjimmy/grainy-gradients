@@ -3,8 +3,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { SvgControls, CssControls, FilterControls } from '~/components/CodeBlocks';
 import Output from '~/components/CodeBlocks/Output';
+import { LinkOut } from '~/components/LinkOut';
 import { Row, LeftCol, Space, RightCol } from '~/components/layout';
-
 const IndexPage = () => {
   return (
     <Container>
@@ -19,6 +19,13 @@ const IndexPage = () => {
             <SvgControls />
             <CssControls />
             <FilterControls />
+            <Space h={60} />
+            <hr />
+            <footer>
+              By <LinkOut href="https://twitter.com/jimmmy">@jimmmy</LinkOut>
+              <br />
+              View <LinkOut href="https://github.com/cjimmy/grainy-gradients">Github repo</LinkOut>
+            </footer>
             <Space h={60} />
           </Scroll>
         </LeftCol>

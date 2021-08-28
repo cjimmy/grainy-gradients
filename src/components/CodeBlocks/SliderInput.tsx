@@ -37,4 +37,5 @@ const SliderContainer = styled.div`
 
 const SliderAndInput = styled.div`
   display: flex;
+  margin: 3px 0;
 `;
