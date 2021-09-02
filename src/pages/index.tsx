@@ -24,7 +24,8 @@ const IndexPage = () => {
             <footer>
               By <LinkOut href="https://twitter.com/jimmmy">@jimmmy</LinkOut>
               <br />
-              View <LinkOut href="https://github.com/cjimmy/grainy-gradients">Github repo</LinkOut>
+              View source on{' '}
+              <LinkOut href="https://github.com/cjimmy/grainy-gradients">Github</LinkOut>
             </footer>
             <Space h={60} />
           </Scroll>
