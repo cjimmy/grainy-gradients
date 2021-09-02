@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import React from 'react';
 import styled from 'styled-components';
-import { SvgControls, CssControls, FilterControls } from '~/components/CodeBlocks';
+import { SvgControls, CssControls, FilterControls, Reset } from '~/components/CodeBlocks';
 import Output from '~/components/CodeBlocks/Output';
 import { LinkOut } from '~/components/LinkOut';
 import { Row, LeftCol, Space, RightCol } from '~/components/layout';
@@ -19,7 +19,9 @@ const IndexPage = () => {
             <SvgControls />
             <CssControls />
             <FilterControls />
-            <Space h={60} />
+            <Space h={40} />
+            <Reset />
+            <Space h={20} />
             <hr />
             <footer>
               By <LinkOut href="https://twitter.com/jimmmy">@jimmmy</LinkOut>

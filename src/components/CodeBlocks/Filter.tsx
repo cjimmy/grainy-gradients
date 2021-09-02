@@ -1,6 +1,6 @@
 import { Form, Switch } from 'antd';
 import hljs from 'highlight.js/lib/core';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import shallow from 'zustand/shallow';
 import { symbols, rgbToString } from './Output';
 import { SectionTitle } from './SectionTitle';
@@ -8,22 +8,13 @@ import SliderInput from './SliderInput';
 import { useInputStore } from '~/components/store';
 
 export const FilterControls = () => {
-  const [svgProps, cssProps, setFilterProps] = useInputStore(
-    (state) => [state.svgProps, state.cssProps, state.setFilterProps],
+  const [svgProps, cssProps, filterProps, setFilterProps] = useInputStore(
+    (state) => [state.svgProps, state.cssProps, state.filterProps, state.setFilterProps],
     shallow
   );
-  const [contrast, setContrast] = useState(170);
-  const [brightness, setBrightness] = useState(1000);
+  const { contrast, brightness } = filterProps;
   const [inlineSvg, setInlineSvg] = useState(false);
   const { size, baseFrequency, numOctaves } = svgProps;
-
-  useEffect(() => {
-    setFilterProps({
-      brightness,
-      contrast,
-      inlineSvg,
-    });
-  }, [setFilterProps, contrast, brightness, inlineSvg]);
 
   const { gradientType, angle, color1, color2, posX, posY } = cssProps;
   const gradientFirstParam =
@@ -67,7 +58,13 @@ export const FilterControls = () => {
           max={1000}
           step={10}
           tipFormatter={(v) => `${v}%`}
-          onChange={(val: number) => setContrast(val)}
+          onChange={(val: number) =>
+            setFilterProps({
+              brightness,
+              contrast: val,
+              inlineSvg,
+            })
+          }
           value={typeof contrast === 'number' ? contrast : 10}
         />
         <SliderInput
@@ -77,7 +74,13 @@ export const FilterControls = () => {
           max={1500}
           step={50}
           tipFormatter={(v) => `${v}%`}
-          onChange={(val: number) => setBrightness(val)}
+          onChange={(val: number) =>
+            setFilterProps({
+              brightness: val,
+              contrast,
+              inlineSvg,
+            })
+          }
           value={typeof brightness === 'number' ? brightness : 0}
         />
         <Form.Item label="Inline the SVG">

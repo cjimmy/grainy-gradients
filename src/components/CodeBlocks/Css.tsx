@@ -1,6 +1,5 @@
 import { Form, Switch, Button, Popover, Select } from 'antd';
 import hljs from 'highlight.js/lib/core';
-import { useEffect, useState } from 'react';
 import { ChromePicker } from 'react-color';
 import styled from 'styled-components';
 import shallow from 'zustand/shallow';
@@ -10,41 +9,26 @@ import SliderInput from './SliderInput';
 import { useInputStore } from '~/components/store';
 
 export const CssControls = () => {
-  const [setCssProps, filterProps] = useInputStore(
-    (state) => [state.setCssProps, state.filterProps],
+  const [setCssProps, cssProps, filterProps] = useInputStore(
+    (state) => [state.setCssProps, state.cssProps, state.filterProps],
     shallow
   );
   const { brightness, contrast } = filterProps;
-  const [angle, setAngle] = useState(112);
-  const [posX, setPosX] = useState(50);
-  const [posY, setPosY] = useState(50);
-  const [showTransparency, setShowTransparency] = useState(true);
-  const [gradientType, setGradientType] = useState('linear');
-  const [color1, setColor1] = useState({ r: 0, g: 0, b: 255, a: 1 });
-  const [color2, setColor2] = useState({ r: 0, g: 0, b: 255, a: 0 });
+  const { gradientType, color1, color2, angle, showTransparency, posX, posY } = cssProps;
 
-  useEffect(() => {
-    setCssProps({
+  const setValues = (key: string, value: any) => {
+    const toSet = {
       gradientType,
-      color1: color1,
-      color2: color2,
+      color1,
+      color2,
       angle,
       showTransparency,
       posX,
       posY,
-    });
-  }, [
-    setCssProps,
-    showTransparency,
-    contrast,
-    brightness,
-    angle,
-    gradientType,
-    color1,
-    color2,
-    posX,
-    posY,
-  ]);
+    };
+    toSet[key] = value;
+    setCssProps(toSet);
+  };
 
   const gradientFirstParam =
     gradientType === 'linear'
@@ -79,7 +63,7 @@ export const CssControls = () => {
             <Form.Item label="Gradient type">
               <Select
                 value={gradientType}
-                onChange={(v) => setGradientType(v)}
+                onChange={(v: string) => setValues('gradientType', v)}
                 style={{ width: 120 }}
               >
                 <Select.Option value="linear">linear</Select.Option>
@@ -92,7 +76,7 @@ export const CssControls = () => {
             <Popover
               placement="bottom"
               style={{ padding: 0 }}
-              content={<ChromePicker color={color1} onChange={(c) => setColor1(c.rgb)} />}
+              content={<ChromePicker color={color1} onChange={(c) => setValues('color1', c.rgb)} />}
               trigger="click"
             >
               <Button>Color 1</Button>
@@ -101,7 +85,7 @@ export const CssControls = () => {
           <ColorPick>
             <Popover
               placement="bottom"
-              content={<ChromePicker color={color2} onChange={(c) => setColor2(c.rgb)} />}
+              content={<ChromePicker color={color2} onChange={(c) => setValues('color2', c.rgb)} />}
               trigger="click"
             >
               <Button>Color 2</Button>
@@ -116,7 +100,7 @@ export const CssControls = () => {
             min={0}
             max={360}
             tipFormatter={(v) => `${v}°`}
-            onChange={(val: number) => setAngle(val)}
+            onChange={(val: number) => setValues('angle', val)}
             value={typeof angle === 'number' ? angle : 0}
           />
         )}
@@ -127,7 +111,7 @@ export const CssControls = () => {
               name="position X"
               min={-50}
               max={150}
-              onChange={(val: number) => setPosX(val)}
+              onChange={(val: number) => setValues('posX', val)}
               value={typeof posX === 'number' ? posX : 0}
             />
             <SliderInput
@@ -135,7 +119,7 @@ export const CssControls = () => {
               name="position Y"
               min={-50}
               max={150}
-              onChange={(val: number) => setPosY(val)}
+              onChange={(val: number) => setValues('posY', val)}
               value={typeof posY === 'number' ? posY : 0}
             />
           </>
@@ -144,7 +128,7 @@ export const CssControls = () => {
           <Switch
             size="small"
             checked={showTransparency}
-            onChange={(e) => setShowTransparency(e)}
+            onChange={(e) => setValues('showTransparency', e)}
           />
         </Form.Item>
       </Form>
