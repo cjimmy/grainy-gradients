@@ -50,5 +50,5 @@ const Scroll = styled.div`
   height: 100vh;
   overflow-y: scroll;
   padding: 0 ${(2 / 24) * 100}%;
-  background-color: #ddd;
+  background-color: #e2e2e2;
 `;
