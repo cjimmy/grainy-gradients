@@ -3,6 +3,7 @@ import { Button } from 'antd';
 import React from 'react';
 import styled from 'styled-components';
 import CopyToClipboard from '~/components/CopyToClipboard';
+
 interface ISectionTitle {
   title: string;
   copyText?: string;
@@ -12,9 +13,11 @@ export const SectionTitle: React.FC<ISectionTitle> = ({ title, copyText }) => {
     <TitleBar>
       <H2>{title}</H2>
       {copyText && (
-        <CopyToClipboard textToCopy={copyText}>
-          <Button icon={<CopyOutlined />}>Copy</Button>
-        </CopyToClipboard>
+        <div style={{ marginBottom: 12 }}>
+          <CopyToClipboard textToCopy={copyText}>
+            <Button icon={<CopyOutlined />}>Copy</Button>
+          </CopyToClipboard>
+        </div>
       )}
     </TitleBar>
   );
@@ -26,5 +29,5 @@ const H2 = styled.h2`
 const TitleBar = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
 `;

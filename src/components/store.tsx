@@ -1,14 +1,44 @@
-/* eslint no-unused-vars: "off" */
-
 import create from 'zustand';
 
+export type SvgPropsType = {
+  size: number;
+  baseFrequency: number;
+  numOctaves: number;
+};
+
+export type ColorType = { r: number; g: number; b: number; a: number };
+
+export type CssPropsType = {
+  gradientType: string;
+  angle: number;
+  color1: ColorType;
+  color2: ColorType;
+  showTransparency: boolean;
+  posX: number;
+  posY: number;
+};
+
+export type FilterPropsType = {
+  contrast: number;
+  brightness: number;
+  inlineSvg: boolean;
+};
+
 export type InputState = {
-  svgProps: Record<string, number>;
-  setSvgProps: ({ size, baseFrequency, numOctaves }) => void;
-  cssProps: Record<string, any>;
-  setCssProps: ({ gradientType, angle, color1, color2, showTransparency, posX, posY }) => void;
-  filterProps: Record<string, number | boolean>;
-  setFilterProps: ({ contrast, brightness, inlineSvg }) => void;
+  svgProps: SvgPropsType;
+  setSvgProps: ({ size, baseFrequency, numOctaves }: SvgPropsType) => void;
+  cssProps: CssPropsType;
+  setCssProps: ({
+    gradientType,
+    angle,
+    color1,
+    color2,
+    showTransparency,
+    posX,
+    posY,
+  }: CssPropsType) => void;
+  filterProps: FilterPropsType;
+  setFilterProps: ({ contrast, brightness, inlineSvg }: FilterPropsType) => void;
   resetAllProps: () => void;
 };
 

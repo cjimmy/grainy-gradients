@@ -1,12 +1,12 @@
 import { Form } from 'antd';
 import hljs from 'highlight.js/lib/core';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import shallow from 'zustand/shallow';
 import { SectionTitle } from './SectionTitle';
 import SliderInput from './SliderInput';
 import { useInputStore } from '~/components/store';
 
-export const SvgControls = () => {
+export const SvgControls: React.FC = () => {
   const [svgProps, setSvgProps] = useInputStore(
     (state) => [state.svgProps, state.setSvgProps],
     shallow

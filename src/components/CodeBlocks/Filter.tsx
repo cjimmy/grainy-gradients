@@ -1,13 +1,13 @@
 import { Form, Switch } from 'antd';
 import hljs from 'highlight.js/lib/core';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import shallow from 'zustand/shallow';
 import { symbols, rgbToString } from './Output';
 import { SectionTitle } from './SectionTitle';
 import SliderInput from './SliderInput';
 import { useInputStore } from '~/components/store';
 
-export const FilterControls = () => {
+export const FilterControls: React.FC = () => {
   const [svgProps, cssProps, filterProps, setFilterProps] = useInputStore(
     (state) => [state.svgProps, state.cssProps, state.filterProps, state.setFilterProps],
     shallow

@@ -1,12 +1,13 @@
+import React from 'react';
 import styled from 'styled-components';
 import shallow from 'zustand/shallow';
-import { useInputStore } from '~/components/store';
+import { ColorType, useInputStore } from '~/components/store';
 
 export const symbols = /[\r\n%#()<>?[\\\]^`{|}]/g;
 
-export const rgbToString = ({ r, g, b, a }) => `rgba(${r},${g},${b},${a})`;
+export const rgbToString = ({ r, g, b, a }: ColorType) => `rgba(${r},${g},${b},${a})`;
 
-const Output = () => {
+const Output: React.FC = () => {
   const [svgProps, cssProps, filterProps] = useInputStore(
     (state) => [state.svgProps, state.cssProps, state.filterProps],
     shallow
@@ -37,9 +38,11 @@ const Output = () => {
 {
   width: 250px;
   height: 250px;
-  background: ${gradientType}-gradient(${gradientFirstParam}, ${rgbToString(color1)}, ${rgbToString(
-    color2
-  )})${showTransparency ? ', url(/checkers.png)' : ''};
+  background: 
+    ${gradientType}-gradient(${gradientFirstParam}, 
+      ${rgbToString(color1)}, ${rgbToString(color2)})${
+    showTransparency ? ', url(/checkers.png)' : ''
+  };
   /* filter: contrast(${contrast}%) brightness(${brightness}%); */
 }`;
 
@@ -56,7 +59,10 @@ filter: contrast(${contrast}%) brightness(${brightness}%);
     <Container>
       <Noise size={size} code={svgString} />
       <Gradient css={gradientCss} />
-      <Filter css={liveCss} />
+      <FilterContainer>
+        <FilterShadow />
+        <Filter css={liveCss} />
+      </FilterContainer>
     </Container>
   );
 };
@@ -78,10 +84,26 @@ const Noise = styled.div`
   width: ${p=>p.size}px;
   height: ${p=>p.size}px;
   background: url("data:image/svg+xml,${(p) => p.code.replace(symbols, encodeURIComponent)}");
+  box-shadow: rgb(50 50 93 / 23%) 0px 30px 60px -15px, rgb(0 0 0 / 32%) 0px 18px 36px -18px;
 `;
 
 const Gradient = styled.div`
   ${(p) => p.css}
+  box-shadow: rgb(50 50 93 / 23%) 0px 30px 60px -15px, rgb(0 0 0 / 32%) 0px 18px 36px -18px;
+`;
+
+const FilterContainer = styled.div`
+  position: relative;
+`;
+
+// have to create a new layer, or the filter affects box-shadow
+const FilterShadow = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: rgb(50 50 93 / 23%) 0px 30px 60px -15px, rgb(0 0 0 / 32%) 0px 18px 36px -18px;
 `;
 
 const Filter = styled.div`

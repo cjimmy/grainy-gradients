@@ -1,7 +1,17 @@
 import { Form, Slider, InputNumber } from 'antd';
 import styled from 'styled-components';
 
-const SliderInput = (props) => {
+interface ISliderInput {
+  label: string;
+  name: string;
+  onChange: (val: number) => void;
+  value: number;
+  min: number;
+  max?: number;
+  step?: number;
+  tipFormatter?: (val: number) => string;
+}
+const SliderInput: React.FC<ISliderInput> = (props) => {
   const { label, name, onChange, value, min, max, step, tipFormatter } = props;
   return (
     <Form.Item label={label} name={name} style={{ width: '100%', margin: 0 }}>
