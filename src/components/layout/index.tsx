@@ -43,7 +43,6 @@ const nCols = 24;
 export const Col = styled.div<ICol>`
   margin-left: ${(props) => (props.off.xs / nCols) * 100}%;
   width: ${(props) => (props.span.xs / nCols) * 100}%;
-  padding: 0 ${(props) => props.gutterWidth * 0.5}px;
 
   @media screen and (min-width: ${breakpoints.sm}px) {
     margin-left: ${(props) => (props.off.sm / nCols) * 100}%;
