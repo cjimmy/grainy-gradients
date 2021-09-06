@@ -63,7 +63,7 @@ async function copyClipboardApi(text: string) {
   return navigator.clipboard.writeText(text);
 }
 
-async function copyExecCommand(text: string) {
+function copyExecCommand(text: string) {
   // Put the text to copy into a <span>
   const span = document.createElement('span');
   span.textContent = text;
@@ -104,7 +104,7 @@ async function clipboardCopy(text: string) {
   } catch (err) {
     // ...Otherwise, use document.execCommand() fallback
     try {
-      await copyExecCommand(text);
+      copyExecCommand(text);
     } catch (err2) {
       throw err2 || err || makeError();
     }

@@ -1,5 +1,6 @@
 import { Form, Slider, InputNumber } from 'antd';
 import styled from 'styled-components';
+import { breakpoints } from '~/components/layout';
 
 interface ISliderInput {
   label: string;
@@ -43,6 +44,9 @@ export default SliderInput;
 
 const SliderContainer = styled.div`
   width: 40%;
+  @media screen and (max-width: ${breakpoints.md - 1}px) {
+    width: 100%;
+  }
 `;
 
 const SliderAndInput = styled.div`

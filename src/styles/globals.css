@@ -39,3 +39,9 @@ h2 {
 ::-moz-selection {
   background: lightblue; /* Gecko Browsers */
 }
+
+@media screen and (max-width: 767px) {
+  .ant-form-item-label {
+    padding-bottom: 0 !important;
+  }
+}

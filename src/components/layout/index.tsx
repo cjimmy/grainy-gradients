@@ -85,7 +85,7 @@ export const Space = styled.div<SpaceProps>`
 export const LeftCol = ({ children }) => (
   <Col
     off={{ xs: 0, sm: 0, md: 0, lg: 0, xl: 0, xxl: 0 }}
-    span={{ xs: 16, sm: 16, md: 16, lg: 16, xl: 16, xxl: 16 }}
+    span={{ xs: 24, sm: 16, md: 16, lg: 16, xl: 16, xxl: 16 }}
   >
     {children}
   </Col>
@@ -94,7 +94,7 @@ export const LeftCol = ({ children }) => (
 export const RightCol = ({ children }) => (
   <Col
     off={{ xs: 0, sm: 0, md: 0, lg: 0, xl: 0, xxl: 0 }}
-    span={{ xs: 8, sm: 8, md: 8, lg: 8, xl: 8, xxl: 8 }}
+    span={{ xs: 24, sm: 8, md: 8, lg: 8, xl: 8, xxl: 8 }}
   >
     {children}
   </Col>

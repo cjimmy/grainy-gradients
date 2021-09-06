@@ -4,6 +4,7 @@ import React from 'react';
 import { ChromePicker } from 'react-color';
 import styled from 'styled-components';
 import shallow from 'zustand/shallow';
+import { breakpoints } from '../layout';
 import { rgbToString } from './Output';
 import { SectionTitle } from './SectionTitle';
 import SliderInput from './SliderInput';
@@ -17,7 +18,7 @@ export const CssControls: React.FC = () => {
   const { brightness, contrast } = filterProps;
   const { gradientType, color1, color2, angle, showTransparency, posX, posY } = cssProps;
 
-  const setValues = (key: string, value: any) => {
+  const setValues = (key: string, value: number | string | ColorType | boolean) => {
     const toSet = {
       gradientType,
       color1,
@@ -60,24 +61,27 @@ export const CssControls: React.FC = () => {
       </pre>
       <Form>
         <GradientControls>
-          <div>
-            <Form.Item label="Gradient type">
-              <Select
-                value={gradientType}
-                onChange={(v: string) => setValues('gradientType', v)}
-                style={{ width: 120 }}
-              >
-                <Select.Option value="linear">linear</Select.Option>
-                <Select.Option value="radial">radial</Select.Option>
-                <Select.Option value="conic">conic</Select.Option>
-              </Select>
-            </Form.Item>
-          </div>
+          <Form.Item label="Gradient type">
+            <Select
+              value={gradientType}
+              onChange={(v: string) => setValues('gradientType', v)}
+              style={{ width: 120 }}
+            >
+              <Select.Option value="linear">linear</Select.Option>
+              <Select.Option value="radial">radial</Select.Option>
+              <Select.Option value="conic">conic</Select.Option>
+            </Select>
+          </Form.Item>
           <ColorPick>
             <Popover
               placement="bottom"
               style={{ padding: 0 }}
-              content={<ChromePicker color={color1} onChange={(c) => setValues('color1', c.rgb)} />}
+              content={
+                <ChromePicker
+                  color={color1}
+                  onChange={(c: ChromePickerColor) => setValues('color1', c.rgb)}
+                />
+              }
               trigger="click"
             >
               <ColorAndButton>
@@ -89,7 +93,12 @@ export const CssControls: React.FC = () => {
           <ColorPick>
             <Popover
               placement="bottom"
-              content={<ChromePicker color={color2} onChange={(c) => setValues('color2', c.rgb)} />}
+              content={
+                <ChromePicker
+                  color={color2}
+                  onChange={(c: ChromePickerColor) => setValues('color2', c.rgb)}
+                />
+              }
               trigger="click"
             >
               <ColorAndButton>
@@ -143,18 +152,41 @@ export const CssControls: React.FC = () => {
   );
 };
 
+//https://casesandberg.github.io/react-color/
+type ChromePickerColor = {
+  hex: string;
+  rgb: {
+    r: number;
+    g: number;
+    b: number;
+    a: number;
+  };
+  hsl: {
+    h: number;
+    s: number;
+    l: number;
+    a: number;
+  };
+};
+
 const GradientControls = styled.div`
   display: flex;
+  @media screen and (max-width: ${breakpoints.md - 1}px) {
+    flex-direction: column;
+  }
 `;
 
 const ColorPick = styled.div`
   margin-left: 15px;
+  @media screen and (max-width: ${breakpoints.md - 1}px) {
+    margin: 10px 0;
+  }
 `;
 
 const ColorSample = styled.div`
   width: 30px;
   height: 30px;
-  background: linear-gradient(0, ${p=>p.color}, ${p=>p.color}), url(/checkers.png);
+  background: linear-gradient(0, ${(p) => p.color}, ${(p) => p.color}), url(/checkers.png);
   border-radius: 1px;
   cursor: pointer;
 `;

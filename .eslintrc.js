@@ -5,9 +5,9 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:react-hooks/recommended',
     'next',
@@ -30,6 +30,7 @@ module.exports = {
     },
     ecmaVersion: 12,
     sourceType: 'module',
+    project: ['tsconfig.json']
   },
   plugins: ['react', 'prettier', '@typescript-eslint', 'import'],
   rules: {
@@ -38,7 +39,8 @@ module.exports = {
     'react/prop-types': 'off',
     'react/display-name': 'off',
     'react/no-unescaped-entities': 'off',
-    'no-unused-vars': 'warn',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'warn',
     'jsx-a11y/anchor-is-valid': 'off',
     'jsx-a11y/accessible-emoji': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',

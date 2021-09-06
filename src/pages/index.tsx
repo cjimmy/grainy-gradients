@@ -5,6 +5,8 @@ import { SvgControls, CssControls, FilterControls, Reset } from '~/components/Co
 import Output from '~/components/CodeBlocks/Output';
 import { LinkOut } from '~/components/LinkOut';
 import { Row, LeftCol, Space, RightCol } from '~/components/layout';
+import { breakpoints } from '~/components/layout';
+
 const IndexPage = () => {
   return (
     <Container>
@@ -44,6 +46,9 @@ export default IndexPage;
 
 const Container = styled.div`
   height: 100vh;
+  @media screen and (max-width: ${breakpoints.md - 1}px) {
+    height: 100%;
+  }
 `;
 
 const Scroll = styled.div`
@@ -51,4 +56,10 @@ const Scroll = styled.div`
   overflow-y: scroll;
   padding: 0 ${(2 / 24) * 100}%;
   background-color: #e2e2e2;
+  @media screen and (max-width: ${breakpoints.md - 1}px) {
+    padding: 0 ${(1 / 24) * 100}%;
+
+    height: 100%;
+    overflow-y: unset;
+  }
 `;

@@ -80,14 +80,21 @@ const Container = styled.div`
 `;
 
 // prettier-ignore
-const Noise = styled.div`
-  width: ${p=>p.size}px;
-  height: ${p=>p.size}px;
-  background: url("data:image/svg+xml,${(p) => p.code.replace(symbols, encodeURIComponent)}");
+type NoiseProps = {
+  size: number,
+  code: string
+}
+const Noise = styled.div<NoiseProps>`
+  width: ${(p) => p.size}px;
+  height: ${(p) => p.size}px;
+  background: url('data:image/svg+xml,${(p) => p.code.replace(symbols, encodeURIComponent)}');
   box-shadow: rgb(50 50 93 / 23%) 0px 30px 60px -15px, rgb(0 0 0 / 32%) 0px 18px 36px -18px;
 `;
 
-const Gradient = styled.div`
+type GradientProps = {
+  css: string;
+};
+const Gradient = styled.div<GradientProps>`
   ${(p) => p.css}
   box-shadow: rgb(50 50 93 / 23%) 0px 30px 60px -15px, rgb(0 0 0 / 32%) 0px 18px 36px -18px;
 `;
@@ -106,6 +113,9 @@ const FilterShadow = styled.div`
   box-shadow: rgb(50 50 93 / 23%) 0px 30px 60px -15px, rgb(0 0 0 / 32%) 0px 18px 36px -18px;
 `;
 
-const Filter = styled.div`
-  ${(p: Record<string, string>) => p.css}
+type FilterProps = {
+  css: string;
+};
+const Filter = styled.div<FilterProps>`
+  ${(p) => p.css}
 `;
