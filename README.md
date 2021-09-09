@@ -8,3 +8,17 @@ Explore the parameters to make a basic grainy gradient.
 
 ## Code
 Next.js app, with Ant Design components, zustand for state, and help from highlight.js and react-color.
+
+```sh
+# install dependencies
+npm i
+
+# run locally
+npm run dev
+
+# lint
+npm run lint
+
+# build locally
+npm run build
+```
