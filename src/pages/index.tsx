@@ -26,14 +26,7 @@ const IndexPage = () => {
               Explore the parameters that make up an effect called the <em>grainy gradient</em>.
               <br />
               Read more on{' '}
-              <a
-                href="https://css-tricks.com/grainy-gradients/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                CSS-Tricks
-              </a>
-              .
+              <LinkOut href="https://css-tricks.com/grainy-gradients/">CSS-Tricks</LinkOut>.
             </p>
             <SvgControls />
             <CssControls />
