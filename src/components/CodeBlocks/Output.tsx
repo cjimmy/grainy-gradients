@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import shallow from 'zustand/shallow';
+import { breakpoints } from '~/components/layout';
 import { ColorType, useInputStore } from '~/components/store';
 
 export const symbols = /[\r\n%#()<>?[\\\]^`{|}]/g;
@@ -79,8 +80,19 @@ const Container = styled.div`
   display: flex;
   overflow-y: scroll;
   flex-wrap: wrap;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: ${breakpoints.md - 1}px) {
+    background-color: #fff;
+    position: fixed;
+    bottom: 0;
+    height: 280px;
+    overflow-x: scroll;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    width: 100vw;
+  }
 `;
 
 type NoiseProps = {
@@ -109,6 +121,9 @@ const OutputSection = styled.div`
   justify-content: center;
   width: calc(100vw * 2 / 3);
   margin: 10px;
+  @media screen and (max-width: ${breakpoints.md - 1}px) {
+    width: auto;
+  }
 `;
 
 // have to create a new layer, or the filter affects box-shadow
