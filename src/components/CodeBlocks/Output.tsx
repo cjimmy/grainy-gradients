@@ -57,37 +57,41 @@ filter: contrast(${contrast}%) brightness(${brightness}%);
 
   return (
     <Container>
-      <Noise size={size} code={svgString} />
-      <Gradient css={gradientCss} />
-      <FilterContainer>
+      <OutputSection>
+        <Noise size={size} code={svgString} />
+      </OutputSection>
+      <OutputSection>
+        <Gradient css={gradientCss} />
+      </OutputSection>
+      <OutputSection>
         <FilterShadow />
         <Filter css={liveCss} />
-      </FilterContainer>
+      </OutputSection>
     </Container>
   );
 };
 
 export default Output;
 
+// hacking it for essentially flex-direction: column; which does not work
 const Container = styled.div`
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
-  overflow: scroll;
-  flex-direction: column;
-  justify-content: space-evenly;
+  overflow-y: scroll;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  flex-shrink: 1;
 `;
 
-// prettier-ignore
 type NoiseProps = {
-  size: number,
-  code: string
-}
+  size: number;
+  code: string;
+};
+// prettier-ignore
 const Noise = styled.div<NoiseProps>`
   width: ${(p) => p.size}px;
   height: ${(p) => p.size}px;
-  background: url('data:image/svg+xml,${(p) => p.code.replace(symbols, encodeURIComponent)}');
+  background: url("data:image/svg+xml,${(p) => p.code.replace(symbols, encodeURIComponent)}");
   box-shadow: rgb(50 50 93 / 23%) 0px 30px 60px -15px, rgb(0 0 0 / 32%) 0px 18px 36px -18px;
 `;
 
@@ -99,17 +103,20 @@ const Gradient = styled.div<GradientProps>`
   box-shadow: rgb(50 50 93 / 23%) 0px 30px 60px -15px, rgb(0 0 0 / 32%) 0px 18px 36px -18px;
 `;
 
-const FilterContainer = styled.div`
+const OutputSection = styled.div`
   position: relative;
+  display: flex;
+  justify-content: center;
+  width: calc(100vw * 2 / 3);
+  margin: 10px;
 `;
 
 // have to create a new layer, or the filter affects box-shadow
 const FilterShadow = styled.div`
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  width: 250px;
+  height: 250px;
   box-shadow: rgb(50 50 93 / 23%) 0px 30px 60px -15px, rgb(0 0 0 / 32%) 0px 18px 36px -18px;
 `;
 

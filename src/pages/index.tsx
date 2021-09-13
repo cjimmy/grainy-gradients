@@ -9,7 +9,7 @@ import { breakpoints } from '~/components/layout';
 
 const IndexPage = () => {
   return (
-    <Container>
+    <div>
       <Head>
         <title>Grainy Gradients playground</title>
       </Head>
@@ -38,18 +38,11 @@ const IndexPage = () => {
           <Output />
         </RightCol>
       </Row>
-    </Container>
+    </div>
   );
 };
 
 export default IndexPage;
-
-const Container = styled.div`
-  height: 100vh;
-  @media screen and (max-width: ${breakpoints.md - 1}px) {
-    height: 100%;
-  }
-`;
 
 const Scroll = styled.div`
   height: 100vh;
@@ -58,7 +51,6 @@ const Scroll = styled.div`
   background-color: #e2e2e2;
   @media screen and (max-width: ${breakpoints.md - 1}px) {
     padding: 0 ${(1 / 24) * 100}%;
-
     height: 100%;
     overflow-y: unset;
   }
