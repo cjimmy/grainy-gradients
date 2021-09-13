@@ -63,5 +63,6 @@ const Scroll = styled.div`
     padding: 0 ${(1 / 24) * 100}%;
     height: 100%;
     overflow-y: unset;
+    padding-bottom: 290px;
   }
 `;

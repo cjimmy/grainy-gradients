@@ -92,6 +92,7 @@ const Container = styled.div`
     flex-wrap: nowrap;
     justify-content: flex-start;
     width: 100vw;
+    border-top: 2px solid #333;
   }
 `;
 
