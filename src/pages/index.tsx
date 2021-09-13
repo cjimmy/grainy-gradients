@@ -12,12 +12,29 @@ const IndexPage = () => {
     <div>
       <Head>
         <title>Grainy Gradients playground</title>
+        <meta name="description" content="Explore the parameters that make up noisy gradients" />
+        <meta name="keywords" content="grainy gradient" />
+        <meta name="title" content="Grainy Gradients playground" />
+        <meta name="theme-color" content="#fff" />
       </Head>
       <Row>
         <LeftCol>
           <Scroll>
             <Space h={30} />
             <h1>Grainy Gradient playground</h1>
+            <p>
+              Explore the parameters that make up an effect called the <em>grainy gradient</em>.
+              <br />
+              Read more on{' '}
+              <a
+                href="https://css-tricks.com/grainy-gradients/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                CSS-Tricks
+              </a>
+              .
+            </p>
             <SvgControls />
             <CssControls />
             <FilterControls />
