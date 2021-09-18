@@ -1,5 +1,6 @@
 # Grainy Gradient playground
 
+* Built for CSS-Tricks article [*Grainy Gradients*](https://css-tricks.com/grainy-gradients/)
 * View at [grainy-gradients.vercel.app](https://grainy-gradients.vercel.app)
 
 Explore the parameters to make a basic grainy gradient.
@@ -22,3 +23,5 @@ npm run lint
 # build locally
 npm run build
 ```
+
+Most of the important code is under `src/components/CodeBlocks`
