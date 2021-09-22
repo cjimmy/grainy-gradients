@@ -1,8 +1,8 @@
-import Head from 'next/head';
 import React from 'react';
 import styled from 'styled-components';
 import { SvgControls, CssControls, FilterControls, Reset } from '~/components/CodeBlocks';
 import Output from '~/components/CodeBlocks/Output';
+import HeadContent from '~/components/HeadContent';
 import { LinkOut } from '~/components/LinkOut';
 import { Row, LeftCol, Space, RightCol } from '~/components/layout';
 import { breakpoints } from '~/components/layout';
@@ -10,13 +10,13 @@ import { breakpoints } from '~/components/layout';
 const IndexPage = () => {
   return (
     <div>
-      <Head>
-        <title>Grainy Gradients playground</title>
-        <meta name="description" content="Explore the parameters that make up noisy gradients" />
-        <meta name="keywords" content="grainy gradient" />
-        <meta name="title" content="Grainy Gradients playground" />
-        <meta name="theme-color" content="#fff" />
-      </Head>
+      <HeadContent
+        title="Grainy Gradients playground"
+        description="Explore the parameters that make up noisy gradients"
+        canonicalUrl="https://grainy-gradients.vercel.app"
+        canonicalImage="/social.png"
+        canonicalImageAlt="Sphere with shadows made of grainy gradients"
+      />
       <Row>
         <LeftCol>
           <Scroll>
