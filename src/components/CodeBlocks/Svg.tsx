@@ -2,8 +2,7 @@ import { Form } from 'antd';
 import hljs from 'highlight.js/lib/core';
 import React, { useEffect } from 'react';
 import shallow from 'zustand/shallow';
-import { SectionTitle } from './SectionTitle';
-import SliderInput from './SliderInput';
+import { SectionTitle, SliderInput } from './subcomponents';
 import { useInputStore } from '~/components/store';
 
 export const SvgControls: React.FC = () => {

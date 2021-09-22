@@ -3,8 +3,7 @@ import hljs from 'highlight.js/lib/core';
 import React, { useState } from 'react';
 import shallow from 'zustand/shallow';
 import { symbols, rgbToString } from './Output';
-import { SectionTitle } from './SectionTitle';
-import SliderInput from './SliderInput';
+import { SectionTitle, SliderInput } from './subcomponents';
 import { useInputStore } from '~/components/store';
 
 export const FilterControls: React.FC = () => {

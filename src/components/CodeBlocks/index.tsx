@@ -8,4 +8,4 @@ hljs.registerLanguage('xml', xmlLang);
 export * from './Svg';
 export * from './Css';
 export * from './Filter';
-export * from './Reset';
+export * from './subcomponents';

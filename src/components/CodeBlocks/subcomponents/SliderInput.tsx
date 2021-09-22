@@ -12,7 +12,7 @@ interface ISliderInput {
   step?: number;
   tipFormatter?: (val: number) => string;
 }
-const SliderInput: React.FC<ISliderInput> = (props) => {
+export const SliderInput: React.FC<ISliderInput> = (props) => {
   const { label, name, onChange, value, min, max, step, tipFormatter } = props;
   return (
     <Form.Item label={label} name={name} style={{ width: '100%', margin: 0 }}>
@@ -39,8 +39,6 @@ const SliderInput: React.FC<ISliderInput> = (props) => {
     </Form.Item>
   );
 };
-
-export default SliderInput;
 
 const SliderContainer = styled.div`
   width: 40%;
