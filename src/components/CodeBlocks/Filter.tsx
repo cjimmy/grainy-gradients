@@ -1,3 +1,4 @@
+import { getGradientFirstParam } from '.';
 import { Form, Switch } from 'antd';
 import hljs from 'highlight.js/lib/core';
 import React, { useState } from 'react';
@@ -15,13 +16,10 @@ export const FilterControls: React.FC = () => {
   const [inlineSvg, setInlineSvg] = useState(false);
   const { size, baseFrequency, numOctaves } = svgProps;
 
-  const { gradientType, angle, color1, color2, posX, posY } = cssProps;
-  const gradientFirstParam =
-    gradientType === 'linear'
-      ? `${angle}deg`
-      : gradientType === 'radial'
-      ? `circle at ${posX}% ${posY}%`
-      : `from ${angle}deg at ${posX}% ${posY}%`;
+  const { gradients } = cssProps;
+  const firstGradient = gradients[0];
+  const gradientFirstParam = getGradientFirstParam(firstGradient);
+
   const cleanSvgString = `<svg viewBox='0 0 ${size} ${size}' xmlns='http://www.w3.org/2000/svg'><filter id='noiseFilter'><feTurbulence type='fractalNoise' baseFrequency='${baseFrequency}' numOctaves='${numOctaves}' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(#noiseFilter)'/></svg>`;
   const inlineSvgString = `url("data:image/svg+xml,${cleanSvgString.replace(
     symbols,
@@ -31,9 +29,11 @@ export const FilterControls: React.FC = () => {
 {
   width: 250px;
   height: 250px;
-  background: ${gradientType}-gradient(${gradientFirstParam}, ${rgbToString(color1)}, ${rgbToString(
-    color2
-  )}), ${inlineSvg ? inlineSvgString : 'url(/👆/that/noise.svg)'};
+  background: ${firstGradient.type}-gradient(${gradientFirstParam}, ${rgbToString(
+    firstGradient.stops[0].color
+  )}, ${rgbToString(firstGradient.stops[1].color)}), ${
+    inlineSvg ? inlineSvgString : 'url(/👆/that/noise.svg)'
+  };
   filter: contrast(${contrast}%) brightness(${brightness}%);
 }
   `;

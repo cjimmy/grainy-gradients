@@ -1,3 +1,4 @@
+import { getGradientFirstParam } from '.';
 import React from 'react';
 import styled from 'styled-components';
 import shallow from 'zustand/shallow';
@@ -14,14 +15,11 @@ const Output: React.FC = () => {
     shallow
   );
   const { size, baseFrequency, numOctaves } = svgProps;
-  const { gradientType, color1, color2, angle, showTransparency, posX, posY } = cssProps;
+  const { gradients, showTransparency } = cssProps;
   const { brightness, contrast } = filterProps;
-  const gradientFirstParam =
-    gradientType === 'linear'
-      ? `${angle}deg`
-      : gradientType === 'radial'
-      ? `circle at ${posX}% ${posY}%`
-      : `from ${angle}deg at ${posX}% ${posY}%`;
+  const firstGradient = gradients[0];
+  const gradientFirstParam = getGradientFirstParam(firstGradient);
+
   const svgString = `<!-- svg: first layer -->
 <svg viewBox='0 0 ${size} ${size}' xmlns='http://www.w3.org/2000/svg'>
   <filter id='noiseFilter'>
@@ -40,8 +38,8 @@ const Output: React.FC = () => {
   width: 250px;
   height: 250px;
   background: 
-    ${gradientType}-gradient(${gradientFirstParam}, 
-      ${rgbToString(color1)}, ${rgbToString(color2)})${
+    ${firstGradient.type}-gradient(${gradientFirstParam}, 
+      ${rgbToString(firstGradient.stops[0].color)}, ${rgbToString(firstGradient.stops[1].color)})${
     showTransparency ? ', url(/checkers.png)' : ''
   };
   /* filter: contrast(${contrast}%) brightness(${brightness}%); */
@@ -50,9 +48,12 @@ const Output: React.FC = () => {
   const liveCss = `
 width: 250px;
 height: 250px;
-background: ${gradientType}-gradient(${gradientFirstParam}, ${rgbToString(color1)}, ${rgbToString(
-    color2
-  )}), url("data:image/svg+xml,${svgString.replace(symbols, encodeURIComponent)}");
+background: ${firstGradient.type}-gradient(${gradientFirstParam}, ${rgbToString(
+    firstGradient.stops[0].color
+  )}, ${rgbToString(firstGradient.stops[1].color)}), url("data:image/svg+xml,${svgString.replace(
+    symbols,
+    encodeURIComponent
+  )}");
 filter: contrast(${contrast}%) brightness(${brightness}%);
 `;
 

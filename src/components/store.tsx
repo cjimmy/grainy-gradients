@@ -7,15 +7,37 @@ export type SvgPropsType = {
 };
 
 export type ColorType = { r: number; g: number; b: number; a: number };
+export type AnyGradientType = LinearGradientType | RadialGradientType | ConicGradientType;
 
 export type CssPropsType = {
-  gradientType: string;
-  angle: number;
-  color1: ColorType;
-  color2: ColorType;
   showTransparency: boolean;
+  gradients: AnyGradientType[];
+};
+
+export type ColorStopType = {
+  color: ColorType;
+  offset: number;
+};
+
+type BaseGradientType = {
+  type: string;
+  stops: ColorStopType[];
+  isVisible: boolean;
+};
+
+export type LinearGradientType = BaseGradientType & {
+  angle: number;
+};
+
+export type RadialGradientType = BaseGradientType & {
   posX: number;
   posY: number;
+};
+
+export type ConicGradientType = BaseGradientType & {
+  posX: number;
+  posY: number;
+  angle: number;
 };
 
 export type FilterPropsType = {
@@ -26,19 +48,11 @@ export type FilterPropsType = {
 
 export type InputState = {
   svgProps: SvgPropsType;
-  setSvgProps: ({ size, baseFrequency, numOctaves }: SvgPropsType) => void;
+  setSvgProps: (props: SvgPropsType) => void;
   cssProps: CssPropsType;
-  setCssProps: ({
-    gradientType,
-    angle,
-    color1,
-    color2,
-    showTransparency,
-    posX,
-    posY,
-  }: CssPropsType) => void;
+  setCssProps: (props: CssPropsType) => void;
   filterProps: FilterPropsType;
-  setFilterProps: ({ contrast, brightness, inlineSvg }: FilterPropsType) => void;
+  setFilterProps: (props: FilterPropsType) => void;
   resetAllProps: () => void;
 };
 
@@ -48,33 +62,35 @@ export const useInputStore = create<InputState>((set) => ({
     baseFrequency: 0.65,
     numOctaves: 3,
   },
-  setSvgProps: ({ size, baseFrequency, numOctaves }) =>
-    set({
-      svgProps: { size, baseFrequency, numOctaves },
-    }),
+  setSvgProps: (props) => set({ svgProps: props }),
 
   cssProps: {
-    gradientType: 'linear',
-    angle: 112,
-    color1: { r: 0, g: 0, b: 255, a: 1 },
-    color2: { r: 0, g: 0, b: 0, a: 0 },
     showTransparency: true,
-    posX: 50,
-    posY: 50,
+    gradients: [
+      {
+        type: 'linear',
+        isVisible: true,
+        angle: 0,
+        stops: [
+          {
+            color: { r: 0, g: 0, b: 255, a: 1 },
+            offset: 0,
+          },
+          {
+            color: { r: 0, g: 0, b: 0, a: 0 },
+            offset: 1,
+          },
+        ],
+      },
+    ],
   },
-  setCssProps: ({ gradientType, angle, color1, color2, showTransparency, posX, posY }) =>
-    set({
-      cssProps: { gradientType, angle, color1, color2, showTransparency, posX, posY },
-    }),
+  setCssProps: (props) => set({ cssProps: props }),
   filterProps: {
     contrast: 170,
     brightness: 1000,
     inlineSvg: false,
   },
-  setFilterProps: ({ contrast, brightness, inlineSvg }) =>
-    set({
-      filterProps: { contrast, brightness, inlineSvg },
-    }),
+  setFilterProps: (props) => set({ filterProps: props }),
   resetAllProps: () =>
     set({
       svgProps: {
@@ -83,13 +99,24 @@ export const useInputStore = create<InputState>((set) => ({
         numOctaves: 3,
       },
       cssProps: {
-        gradientType: 'linear',
-        angle: 112,
-        color1: { r: 0, g: 0, b: 255, a: 1 },
-        color2: { r: 0, g: 0, b: 0, a: 0 },
         showTransparency: true,
-        posX: 50,
-        posY: 50,
+        gradients: [
+          {
+            type: 'linear',
+            isVisible: true,
+            angle: 0,
+            stops: [
+              {
+                color: { r: 0, g: 0, b: 255, a: 1 },
+                offset: 0,
+              },
+              {
+                color: { r: 0, g: 0, b: 0, a: 0 },
+                offset: 1,
+              },
+            ],
+          },
+        ],
       },
       filterProps: {
         contrast: 170,
