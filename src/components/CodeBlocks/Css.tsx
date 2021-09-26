@@ -1,7 +1,6 @@
 import { Form, Switch } from 'antd';
 import hljs from 'highlight.js/lib/core';
 import React from 'react';
-// import styled from 'styled-components';
 import shallow from 'zustand/shallow';
 import { rgbToString } from './Output';
 import { SectionTitle } from './subcomponents';

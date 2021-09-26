@@ -2,10 +2,10 @@ import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { Form, Select } from 'antd';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { ColorStopType } from '../store';
+import { Row } from '../layout';
 import { ColorPicker, ChromePickerColor } from './ColorPicker';
 import { SliderInput } from '~/components/CodeBlocks/subcomponents';
-import { GradientPicker } from '~/components/GradientPicker';
+import { ColorStopType } from '~/components/store';
 
 export const GradientRow = () => {
   const [gradientType, setGradientType] = useState<string>('linear');
@@ -20,11 +20,11 @@ export const GradientRow = () => {
 
   return (
     <Form>
-      <div>
+      <Row>
         <VisibilityIcon onClick={() => setIsVisible((v) => !v)}>
           {isVisible ? <EyeOutlined /> : <EyeInvisibleOutlined />}
         </VisibilityIcon>
-        <Form.Item label="Gradient type">
+        <Form.Item>
           <Select
             value={gradientType}
             onChange={(v: string) => setGradientType(v)}
@@ -35,7 +35,6 @@ export const GradientRow = () => {
             <Select.Option value="conic">conic</Select.Option>
           </Select>
         </Form.Item>
-        <GradientPicker />
         <ColorPicker
           label="Color 1"
           color={colors[0].color}
@@ -51,7 +50,7 @@ export const GradientRow = () => {
             setColors((colors) => [colors[0], { color: c.rgb, offset: 1 }])
           }
         />
-      </div>
+      </Row>
 
       {['linear', 'conic'].includes(gradientType) && (
         <SliderInput
