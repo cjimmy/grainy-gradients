@@ -23,6 +23,7 @@ type BaseGradientType = {
   type: string;
   stops: ColorStopType[];
   isVisible: boolean;
+  isRepeating?: boolean;
 };
 
 export type LinearGradientType = BaseGradientType & {
