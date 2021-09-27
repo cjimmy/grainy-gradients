@@ -44,7 +44,7 @@ export type ConicGradientType = BaseGradientType & {
 export type FilterPropsType = {
   contrast: number;
   brightness: number;
-  inlineSvg: boolean;
+  invert: boolean;
 };
 
 export type InputState = {
@@ -57,72 +57,47 @@ export type InputState = {
   resetAllProps: () => void;
 };
 
+const initialSvgProps = {
+  size: 250,
+  baseFrequency: 0.65,
+  numOctaves: 3,
+};
+const initialCssProps = {
+  showTransparency: false,
+  gradients: [
+    {
+      type: 'linear',
+      isVisible: true,
+      angle: 0,
+      stops: [
+        {
+          color: { r: 0, g: 0, b: 255, a: 1 },
+          offset: 0,
+        },
+        {
+          color: { r: 0, g: 0, b: 0, a: 0 },
+          offset: 1,
+        },
+      ],
+    },
+  ],
+};
+const initialFilterProps = {
+  contrast: 170,
+  brightness: 1000,
+  invert: false,
+};
 export const useInputStore = create<InputState>((set) => ({
-  svgProps: {
-    size: 250,
-    baseFrequency: 0.65,
-    numOctaves: 3,
-  },
+  svgProps: initialSvgProps,
   setSvgProps: (props) => set({ svgProps: props }),
-
-  cssProps: {
-    showTransparency: true,
-    gradients: [
-      {
-        type: 'linear',
-        isVisible: true,
-        angle: 0,
-        stops: [
-          {
-            color: { r: 0, g: 0, b: 255, a: 1 },
-            offset: 0,
-          },
-          {
-            color: { r: 0, g: 0, b: 0, a: 0 },
-            offset: 1,
-          },
-        ],
-      },
-    ],
-  },
+  cssProps: initialCssProps,
   setCssProps: (props) => set({ cssProps: props }),
-  filterProps: {
-    contrast: 170,
-    brightness: 1000,
-    inlineSvg: false,
-  },
+  filterProps: initialFilterProps,
   setFilterProps: (props) => set({ filterProps: props }),
   resetAllProps: () =>
     set({
-      svgProps: {
-        size: 250,
-        baseFrequency: 0.65,
-        numOctaves: 3,
-      },
-      cssProps: {
-        showTransparency: true,
-        gradients: [
-          {
-            type: 'linear',
-            isVisible: true,
-            angle: 0,
-            stops: [
-              {
-                color: { r: 0, g: 0, b: 255, a: 1 },
-                offset: 0,
-              },
-              {
-                color: { r: 0, g: 0, b: 0, a: 0 },
-                offset: 1,
-              },
-            ],
-          },
-        ],
-      },
-      filterProps: {
-        contrast: 170,
-        brightness: 1000,
-        inlineSvg: false,
-      },
+      svgProps: initialSvgProps,
+      cssProps: initialCssProps,
+      filterProps: initialFilterProps,
     }),
 }));

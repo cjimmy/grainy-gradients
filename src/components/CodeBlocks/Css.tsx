@@ -1,17 +1,17 @@
 import { Form, Switch } from 'antd';
 import hljs from 'highlight.js/lib/core';
 import React from 'react';
-import shallow from 'zustand/shallow';
 import { rgbToString } from './Output';
 import { SectionTitle } from './subcomponents';
 import { GradientPicker } from '~/components/GradientPicker';
 import { AnyGradientType, useInputStore } from '~/components/store';
 
 export const CssControls: React.FC = () => {
-  const [cssProps, filterProps] = useInputStore(
-    (state) => [state.cssProps, state.filterProps],
-    shallow
-  );
+  const [cssProps, setCssProps, filterProps] = useInputStore((state) => [
+    state.cssProps,
+    state.setCssProps,
+    state.filterProps,
+  ]);
   const { brightness, contrast } = filterProps;
   const { gradients, showTransparency } = cssProps;
 
@@ -48,7 +48,7 @@ export const CssControls: React.FC = () => {
             size="small"
             checked={showTransparency}
             onChange={(e) => {
-              console.log(e);
+              setCssProps({ ...cssProps, showTransparency: e });
             }}
           />
         </Form.Item>

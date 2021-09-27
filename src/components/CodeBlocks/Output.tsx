@@ -1,7 +1,6 @@
 import { getGradientFirstParam } from '.';
 import React from 'react';
 import styled from 'styled-components';
-import shallow from 'zustand/shallow';
 import { breakpoints } from '~/components/layout';
 import { ColorType, useInputStore } from '~/components/store';
 
@@ -10,15 +9,14 @@ export const symbols = /[\r\n%#()<>?[\\\]^`{|}]/g;
 export const rgbToString = ({ r, g, b, a }: ColorType) => `rgba(${r},${g},${b},${a})`;
 
 const Output: React.FC = () => {
-  const [svgProps, cssProps, filterProps] = useInputStore(
-    (state) => [state.svgProps, state.cssProps, state.filterProps],
-    shallow
-  );
+  const [svgProps, cssProps, filterProps] = useInputStore((state) => [
+    state.svgProps,
+    state.cssProps,
+    state.filterProps,
+  ]);
   const { size, baseFrequency, numOctaves } = svgProps;
   const { gradients, showTransparency } = cssProps;
-  const { brightness, contrast } = filterProps;
-  const firstGradient = gradients[0];
-  const gradientFirstParam = getGradientFirstParam(firstGradient);
+  const { brightness, contrast, invert } = filterProps;
 
   const svgString = `<!-- svg: first layer -->
 <svg viewBox='0 0 ${size} ${size}' xmlns='http://www.w3.org/2000/svg'>
@@ -33,28 +31,28 @@ const Output: React.FC = () => {
   <rect width='100%' height='100%' filter='url(#noiseFilter)'/>
 </svg>`;
 
+  const gradientsString = gradients.map((grad) => {
+    return `${grad.type}-gradient(${getGradientFirstParam(grad)}, ${rgbToString(
+      grad.stops[0].color
+    )}, ${rgbToString(grad.stops[1].color)})`;
+  });
+
   const gradientCss = `/* css gradient: second layer */
 {
   width: 250px;
   height: 250px;
-  background: 
-    ${firstGradient.type}-gradient(${gradientFirstParam}, 
-      ${rgbToString(firstGradient.stops[0].color)}, ${rgbToString(firstGradient.stops[1].color)})${
-    showTransparency ? ', url(/checkers.png)' : ''
-  };
-  /* filter: contrast(${contrast}%) brightness(${brightness}%); */
+  background: ${gradientsString.join(' ')} ${showTransparency ? ', url(/checkers.png)' : ''};
+  /* filter: contrast(${contrast}%) brightness(${brightness}%)${invert ? ' invert(100%)' : ''}; */
 }`;
 
   const liveCss = `
 width: 250px;
 height: 250px;
-background: ${firstGradient.type}-gradient(${gradientFirstParam}, ${rgbToString(
-    firstGradient.stops[0].color
-  )}, ${rgbToString(firstGradient.stops[1].color)}), url("data:image/svg+xml,${svgString.replace(
+background: ${gradientsString.join(' ')}, url("data:image/svg+xml,${svgString.replace(
     symbols,
     encodeURIComponent
   )}");
-filter: contrast(${contrast}%) brightness(${brightness}%);
+filter: contrast(${contrast}%) brightness(${brightness}%)${invert ? ' invert(100%)' : ''};
 `;
 
   return (
