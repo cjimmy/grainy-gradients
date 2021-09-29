@@ -1,32 +1,46 @@
-import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
-import { Form, Select } from 'antd';
+import { EyeOutlined, EyeInvisibleOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Form, Select, Tooltip } from 'antd';
 import React from 'react';
 import styled from 'styled-components';
-import { Row } from '../layout';
 import { ColorPicker, ChromePickerColor } from './ColorPicker';
 import { SliderInput } from '~/components/CodeBlocks/subcomponents';
-import { AnyGradientType, ColorStopType } from '~/components/store';
+import {
+  AnyGradientType,
+  ColorStopType,
+  ConicGradientType,
+  RadialGradientType,
+} from '~/components/store';
 
 interface IGradientRow {
   gradient: AnyGradientType;
   selfIndex: number;
+  nGradients: number;
   updateSelf: (index: number, newData: AnyGradientType) => void;
+  deleteSelf: (index: number) => void;
 }
-export const GradientRow: React.FC<IGradientRow> = ({ gradient, selfIndex, updateSelf }) => {
+export const GradientRow: React.FC<IGradientRow> = ({
+  gradient,
+  selfIndex,
+  nGradients,
+  updateSelf,
+  deleteSelf,
+}) => {
   const { type: gradientType, isVisible, stops } = gradient;
 
   const updateProp = (key: string, value: string | boolean | ColorStopType[] | number) => {
     const newGradient = gradient;
     newGradient[key] = value;
+    // add default values for radial and conic gradients
+    if (key === 'type' && !('posX' in newGradient)) {
+      (newGradient as RadialGradientType | ConicGradientType).posX = 50;
+      (newGradient as RadialGradientType | ConicGradientType).posY = 50;
+    }
     updateSelf(selfIndex, newGradient);
   };
 
   return (
     <Form>
-      <Row>
-        <VisibilityIcon onClick={() => updateProp('isVisible', !isVisible)}>
-          {isVisible ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-        </VisibilityIcon>
+      <RowContainer>
         <Form.Item>
           <Select
             value={gradientType}
@@ -53,7 +67,23 @@ export const GradientRow: React.FC<IGradientRow> = ({ gradient, selfIndex, updat
             updateProp('stops', [stops[0], { color: c.rgb, offset: 1 }])
           }
         />
-      </Row>
+        <VisibilityIcon onClick={() => updateProp('isVisible', !isVisible)}>
+          {isVisible ? (
+            <Tooltip title="Hide">
+              <EyeOutlined />
+            </Tooltip>
+          ) : (
+            <EyeInvisibleOutlined />
+          )}
+        </VisibilityIcon>
+        {nGradients > 1 && (
+          <VisibilityIcon onClick={() => deleteSelf(selfIndex)}>
+            <Tooltip title="Remove gradient">
+              <DeleteOutlined />
+            </Tooltip>
+          </VisibilityIcon>
+        )}
+      </RowContainer>
 
       {['linear', 'conic'].includes(gradientType) && 'angle' in gradient && (
         <SliderInput
@@ -92,4 +122,11 @@ export const GradientRow: React.FC<IGradientRow> = ({ gradient, selfIndex, updat
 
 const VisibilityIcon = styled.div`
   padding: 3px;
+  margin: 0 8px;
+  cursor: pointer;
+`;
+
+const RowContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;

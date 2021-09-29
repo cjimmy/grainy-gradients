@@ -32,7 +32,7 @@ export const FilterControls: React.FC = () => {
 {
   width: 250px;
   height: 250px;
-  background: ${gradientsString.join(' ')}, ${
+  background: ${gradientsString.join(', ')}, ${
     inlineSvg ? inlineSvgString : 'url(/👆/that/noise.svg)'
   };
   filter: contrast(${contrast}%) brightness(${brightness}%)${invert ? ' invert(100%)' : ''};

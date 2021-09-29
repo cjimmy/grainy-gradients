@@ -62,25 +62,26 @@ const initialSvgProps = {
   baseFrequency: 0.65,
   numOctaves: 3,
 };
-const initialCssProps = {
-  showTransparency: false,
-  gradients: [
+
+export const defaultGradient = {
+  type: 'linear',
+  isVisible: true,
+  angle: 0,
+  stops: [
     {
-      type: 'linear',
-      isVisible: true,
-      angle: 0,
-      stops: [
-        {
-          color: { r: 0, g: 0, b: 255, a: 1 },
-          offset: 0,
-        },
-        {
-          color: { r: 0, g: 0, b: 0, a: 0 },
-          offset: 1,
-        },
-      ],
+      color: { r: 0, g: 0, b: 255, a: 1 },
+      offset: 0,
+    },
+    {
+      color: { r: 0, g: 0, b: 0, a: 0 },
+      offset: 1,
     },
   ],
+};
+
+const initialCssProps = {
+  showTransparency: false,
+  gradients: [defaultGradient],
 };
 const initialFilterProps = {
   contrast: 170,

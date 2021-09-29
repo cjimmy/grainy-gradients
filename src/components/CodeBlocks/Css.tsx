@@ -3,7 +3,7 @@ import hljs from 'highlight.js/lib/core';
 import React from 'react';
 import { rgbToString } from './Output';
 import { SectionTitle } from './subcomponents';
-import { GradientPicker } from '~/components/GradientPicker';
+import { GradientControls } from '~/components/GradientControls';
 import { AnyGradientType, useInputStore } from '~/components/store';
 
 export const CssControls: React.FC = () => {
@@ -41,7 +41,7 @@ export const CssControls: React.FC = () => {
           }}
         />
       </pre>
-      <GradientPicker />
+      <GradientControls />
       <Form>
         <Form.Item label="Show checkered">
           <Switch

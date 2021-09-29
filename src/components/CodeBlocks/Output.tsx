@@ -31,24 +31,27 @@ const Output: React.FC = () => {
   <rect width='100%' height='100%' filter='url(#noiseFilter)'/>
 </svg>`;
 
-  const gradientsString = gradients.map((grad) => {
-    return `${grad.type}-gradient(${getGradientFirstParam(grad)}, ${rgbToString(
-      grad.stops[0].color
-    )}, ${rgbToString(grad.stops[1].color)})`;
-  });
+  const gradientsString = gradients
+    .filter((grad) => grad.isVisible)
+    .map(
+      (grad) =>
+        `${grad.type}-gradient(${getGradientFirstParam(grad)}, ${rgbToString(
+          grad.stops[0].color
+        )}, ${rgbToString(grad.stops[1].color)})`
+    );
 
   const gradientCss = `/* css gradient: second layer */
 {
   width: 250px;
   height: 250px;
-  background: ${gradientsString.join(' ')} ${showTransparency ? ', url(/checkers.png)' : ''};
+  background: ${gradientsString.join(', ')} ${showTransparency ? ', url(/checkers.png)' : ''};
   /* filter: contrast(${contrast}%) brightness(${brightness}%)${invert ? ' invert(100%)' : ''}; */
 }`;
 
   const liveCss = `
 width: 250px;
 height: 250px;
-background: ${gradientsString.join(' ')}, url("data:image/svg+xml,${svgString.replace(
+background: ${gradientsString.join(', ')}, url("data:image/svg+xml,${svgString.replace(
     symbols,
     encodeURIComponent
   )}");
