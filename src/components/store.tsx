@@ -1,5 +1,10 @@
 import create from 'zustand';
 
+function getRandomFrom<T>(arr: Array<T>): T {
+  const randIndex = Math.trunc(Math.random() * 10) % arr.length;
+  return arr[randIndex];
+}
+
 export type SvgPropsType = {
   size: number;
   baseFrequency: number;
@@ -78,6 +83,36 @@ export const defaultGradient = {
     },
   ],
 };
+
+export function getRandomGradient(): AnyGradientType {
+  return {
+    type: getRandomFrom(['linear', 'radial', 'conic']),
+    isVisible: true,
+    angle: getRandomFrom([0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330]),
+    posX: 50,
+    posY: 50,
+    stops: [
+      {
+        color: {
+          r: getRandomFrom([0, 255]),
+          g: getRandomFrom([0, 255]),
+          b: getRandomFrom([0, 255]),
+          a: 1,
+        },
+        offset: 0,
+      },
+      {
+        color: {
+          r: getRandomFrom([0, 255]),
+          g: getRandomFrom([0, 255]),
+          b: getRandomFrom([0, 255]),
+          a: 0,
+        },
+        offset: 1,
+      },
+    ],
+  };
+}
 
 const initialCssProps = {
   showTransparency: false,

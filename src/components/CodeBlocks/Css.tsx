@@ -15,19 +15,22 @@ export const CssControls: React.FC = () => {
   const { brightness, contrast } = filterProps;
   const { gradients, showTransparency } = cssProps;
 
-  //temp
-  const firstGradient = gradients[0];
-  const { type: gradientType, stops } = firstGradient;
-
-  const gradientFirstParam = getGradientFirstParam(firstGradient);
+  const gradientsString = gradients
+    .filter((grad) => grad.isVisible)
+    .map(
+      (grad) =>
+        `${grad.type}-gradient(${getGradientFirstParam(grad)}, ${rgbToString(
+          grad.stops[0].color
+        )}, ${rgbToString(grad.stops[1].color)})`
+    );
 
   const gradientCss = `/* css gradient: second layer */
 {
   width: 250px;
   height: 250px;
-  background: ${gradientType}-gradient(${gradientFirstParam}, ${rgbToString(
-    stops[0].color
-  )}, ${rgbToString(stops[1].color)})${showTransparency ? ', url(/checkers.png)' : ''};
+  background: \n\t${gradientsString.join(',\n\t')}${
+    showTransparency ? ',\n\turl(/checkers.png)' : ''
+  };
   /* filter: contrast(${contrast}%) brightness(${brightness}%); */
 }`;
   return (
