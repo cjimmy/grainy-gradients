@@ -81,7 +81,7 @@ export const FilterControls: React.FC = () => {
           }
           value={typeof brightness === 'number' ? brightness : 0}
         />
-        <Form.Item label="Invert">
+        <Form.Item label="Invert" style={{ marginBottom: 6 }}>
           <Switch
             size="small"
             checked={invert}

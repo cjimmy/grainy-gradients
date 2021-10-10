@@ -44,9 +44,8 @@ export const CssControls: React.FC = () => {
           }}
         />
       </pre>
-      <GradientControls />
       <Form>
-        <Form.Item label="Show checkered">
+        <Form.Item label="Show checkered background" style={{ marginBottom: 4 }}>
           <Switch
             size="small"
             checked={showTransparency}
@@ -56,6 +55,7 @@ export const CssControls: React.FC = () => {
           />
         </Form.Item>
       </Form>
+      <GradientControls />
     </div>
   );
 };
