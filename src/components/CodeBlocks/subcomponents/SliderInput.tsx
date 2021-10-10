@@ -5,6 +5,8 @@ import { breakpoints } from '~/components/layout';
 interface ISliderInput {
   label: string;
   name: string;
+  id?: string;
+  disabled?: boolean;
   onChange: (val: number) => void;
   value: number;
   min: number;
@@ -13,9 +15,9 @@ interface ISliderInput {
   tipFormatter?: (val: number) => string;
 }
 export const SliderInput: React.FC<ISliderInput> = (props) => {
-  const { label, name, onChange, value, min, max, step, tipFormatter } = props;
+  const { label, name, id, onChange, value, min, max, step, tipFormatter, disabled } = props;
   return (
-    <Form.Item label={label} name={name} style={{ width: '100%', margin: 0 }}>
+    <Form.Item label={label} name={[name, id]} style={{ width: '100%', margin: 0 }}>
       <SliderAndInput>
         <SliderContainer>
           <Slider
@@ -25,6 +27,7 @@ export const SliderInput: React.FC<ISliderInput> = (props) => {
             max={max}
             onChange={onChange}
             value={value}
+            disabled={disabled}
           />
         </SliderContainer>
         <InputNumber
@@ -34,6 +37,7 @@ export const SliderInput: React.FC<ISliderInput> = (props) => {
           value={value}
           onChange={onChange}
           formatter={tipFormatter}
+          disabled={disabled}
         />
       </SliderAndInput>
     </Form.Item>

@@ -1,3 +1,4 @@
+import { getGradientFirstParam } from '.';
 import { Form, Switch } from 'antd';
 import hljs from 'highlight.js/lib/core';
 import React, { useState } from 'react';
@@ -11,17 +12,17 @@ export const FilterControls: React.FC = () => {
     (state) => [state.svgProps, state.cssProps, state.filterProps, state.setFilterProps],
     shallow
   );
-  const { contrast, brightness } = filterProps;
+  const { contrast, brightness, invert } = filterProps;
   const [inlineSvg, setInlineSvg] = useState(false);
   const { size, baseFrequency, numOctaves } = svgProps;
 
-  const { gradientType, angle, color1, color2, posX, posY } = cssProps;
-  const gradientFirstParam =
-    gradientType === 'linear'
-      ? `${angle}deg`
-      : gradientType === 'radial'
-      ? `circle at ${posX}% ${posY}%`
-      : `from ${angle}deg at ${posX}% ${posY}%`;
+  const { gradients } = cssProps;
+  const gradientsString = gradients.map((grad) => {
+    return `${grad.type}-gradient(${getGradientFirstParam(grad)}, ${rgbToString(
+      grad.stops[0].color
+    )}, ${rgbToString(grad.stops[1].color)})`;
+  });
+
   const cleanSvgString = `<svg viewBox='0 0 ${size} ${size}' xmlns='http://www.w3.org/2000/svg'><filter id='noiseFilter'><feTurbulence type='fractalNoise' baseFrequency='${baseFrequency}' numOctaves='${numOctaves}' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(#noiseFilter)'/></svg>`;
   const inlineSvgString = `url("data:image/svg+xml,${cleanSvgString.replace(
     symbols,
@@ -31,10 +32,10 @@ export const FilterControls: React.FC = () => {
 {
   width: 250px;
   height: 250px;
-  background: ${gradientType}-gradient(${gradientFirstParam}, ${rgbToString(color1)}, ${rgbToString(
-    color2
-  )}), ${inlineSvg ? inlineSvgString : 'url(/👆/that/noise.svg)'};
-  filter: contrast(${contrast}%) brightness(${brightness}%);
+  filter: contrast(${contrast}%) brightness(${brightness}%)${invert ? ' invert(100%)' : ''};
+  background: \n\t${gradientsString.join(',\n\t')},\n\t${
+    inlineSvg ? inlineSvgString : 'url(/👆/that/noise.svg)'
+  };
 }
   `;
 
@@ -59,9 +60,8 @@ export const FilterControls: React.FC = () => {
           tipFormatter={(v) => `${v}%`}
           onChange={(val: number) =>
             setFilterProps({
-              brightness,
+              ...filterProps,
               contrast: val,
-              inlineSvg,
             })
           }
           value={typeof contrast === 'number' ? contrast : 10}
@@ -75,13 +75,24 @@ export const FilterControls: React.FC = () => {
           tipFormatter={(v) => `${v}%`}
           onChange={(val: number) =>
             setFilterProps({
+              ...filterProps,
               brightness: val,
-              contrast,
-              inlineSvg,
             })
           }
           value={typeof brightness === 'number' ? brightness : 0}
         />
+        <Form.Item label="Invert" style={{ marginBottom: 6 }}>
+          <Switch
+            size="small"
+            checked={invert}
+            onChange={(v) =>
+              setFilterProps({
+                ...filterProps,
+                invert: v,
+              })
+            }
+          />
+        </Form.Item>
         <Form.Item label="Inline the SVG">
           <Switch size="small" checked={inlineSvg} onChange={(e) => setInlineSvg(e)} />
         </Form.Item>
