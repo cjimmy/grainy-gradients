@@ -1,8 +1,9 @@
 import { Tooltip } from 'antd';
 import { TooltipPlacement } from 'antd/lib/tooltip';
-import React, { SyntheticEvent } from 'react';
+import React, { SyntheticEvent, ReactNode } from 'react';
 
 interface ICopyToClipboard {
+  children?: ReactNode;
   textToCopy: string;
   timeoutInMs?: number;
   initialText?: string | null;
@@ -38,7 +39,9 @@ const CopyToClipboard: React.FC<ICopyToClipboard> = ({
         role="button"
         tabIndex={0}
         style={{ display: 'inline-block' }}
-        onClick={copyUrlToClipboard}
+        onClick={(e) => {
+          void copyUrlToClipboard(e);
+        }}
       >
         {children}
       </div>

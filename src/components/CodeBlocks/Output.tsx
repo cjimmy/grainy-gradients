@@ -1,19 +1,22 @@
 import { getGradientFirstParam } from '.';
 import React from 'react';
 import styled from 'styled-components';
+import { useShallow } from 'zustand/react/shallow';
 import { breakpoints } from '~/components/layout';
-import { ColorType, useInputStore } from '~/components/store';
+import { ColorType, useInputStore, InputState, SvgPropsType, CssPropsType, FilterPropsType } from '~/components/store';
 
 export const symbols = /[\r\n%#()<>?[\\\]^`{|}]/g;
 
 export const rgbToString = ({ r, g, b, a }: ColorType) => `rgba(${r},${g},${b},${a})`;
 
 const Output: React.FC = () => {
-  const [svgProps, cssProps, filterProps] = useInputStore((state) => [
-    state.svgProps,
-    state.cssProps,
-    state.filterProps,
-  ]);
+  const [svgProps, cssProps, filterProps] = useInputStore(
+    useShallow((state: InputState): [SvgPropsType, CssPropsType, FilterPropsType] => [
+      state.svgProps,
+      state.cssProps,
+      state.filterProps,
+    ])
+  );
   const { size, baseFrequency, numOctaves } = svgProps;
   const { gradients, showTransparency } = cssProps;
   const { brightness, contrast, invert } = filterProps;

@@ -1,20 +1,33 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import React from 'react';
-import shallow from 'zustand/shallow';
-import { useInputStore, AnyGradientType, getRandomGradient } from '../store';
+import { useShallow } from 'zustand/react/shallow';
+import {
+  useInputStore,
+  AnyGradientType,
+  getRandomGradient,
+  InputState,
+  CssPropsType,
+} from '../store';
 import { GradientRow } from './GradientRow';
 
 export const GradientControls: React.FC = () => {
   const [cssProps, setCssProps] = useInputStore(
-    (state) => [state.cssProps, state.setCssProps],
-    shallow
+    useShallow((state: InputState): [CssPropsType, (props: CssPropsType) => void] => [
+      state.cssProps,
+      state.setCssProps,
+    ])
   );
 
   const updateStateOfSelf = React.useCallback(
     (index: number, newData: AnyGradientType) => {
-      cssProps.gradients[index] = newData;
-      setCssProps({ ...cssProps });
+      const newGradients = cssProps.gradients.map((grad, i) =>
+        i === index ? newData : grad
+      );
+      setCssProps({
+        ...cssProps,
+        gradients: newGradients,
+      });
     },
     [cssProps, setCssProps]
   );
@@ -31,13 +44,16 @@ export const GradientControls: React.FC = () => {
   );
 
   const pushNewGradient = () => {
-    cssProps.gradients.push(getRandomGradient());
-    setCssProps(cssProps);
+    const newGradients = [...cssProps.gradients, getRandomGradient()];
+    setCssProps({
+      ...cssProps,
+      gradients: newGradients,
+    });
   };
 
   const gradientInterface = cssProps.gradients.map((grad, i) => (
     <GradientRow
-      key={i}
+      key={grad.id}
       gradient={grad}
       nGradients={cssProps.gradients.length}
       updateSelf={updateStateOfSelf}

@@ -9,7 +9,6 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:jsx-a11y/recommended',
-    'plugin:react-hooks/recommended',
     'next',
     'next/core-web-vitals',
   ],
@@ -30,7 +29,7 @@ module.exports = {
     },
     ecmaVersion: 12,
     sourceType: 'module',
-    project: ['tsconfig.json']
+    project: ['tsconfig.json'],
   },
   plugins: ['react', 'prettier', '@typescript-eslint', 'import'],
   rules: {

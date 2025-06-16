@@ -2,15 +2,29 @@ import { getGradientFirstParam } from '.';
 import { Form, Switch } from 'antd';
 import hljs from 'highlight.js/lib/core';
 import React, { useState } from 'react';
-import shallow from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
+import {
+  useInputStore,
+  SvgPropsType,
+  CssPropsType,
+  FilterPropsType,
+  InputState,
+} from '~/components/store';
 import { symbols, rgbToString } from './Output';
 import { SectionTitle, SliderInput } from './subcomponents';
-import { useInputStore } from '~/components/store';
 
 export const FilterControls: React.FC = () => {
   const [svgProps, cssProps, filterProps, setFilterProps] = useInputStore(
-    (state) => [state.svgProps, state.cssProps, state.filterProps, state.setFilterProps],
-    shallow
+    useShallow(
+      (
+        state: InputState
+      ): [SvgPropsType, CssPropsType, FilterPropsType, (props: FilterPropsType) => void] => [
+        state.svgProps,
+        state.cssProps,
+        state.filterProps,
+        state.setFilterProps,
+      ]
+    )
   );
   const { contrast, brightness, invert } = filterProps;
   const [inlineSvg, setInlineSvg] = useState(false);
@@ -58,12 +72,14 @@ export const FilterControls: React.FC = () => {
           max={1000}
           step={10}
           tipFormatter={(v) => `${v}%`}
-          onChange={(val: number) =>
-            setFilterProps({
-              ...filterProps,
-              contrast: val,
-            })
-          }
+          onChange={(val: number) => {
+            if (filterProps.contrast !== val) {
+              setFilterProps({
+                ...filterProps,
+                contrast: val,
+              });
+            }
+          }}
           value={typeof contrast === 'number' ? contrast : 10}
         />
         <SliderInput
@@ -73,12 +89,14 @@ export const FilterControls: React.FC = () => {
           max={1500}
           step={50}
           tipFormatter={(v) => `${v}%`}
-          onChange={(val: number) =>
-            setFilterProps({
-              ...filterProps,
-              brightness: val,
-            })
-          }
+          onChange={(val: number) => {
+            if (filterProps.brightness !== val) {
+              setFilterProps({
+                ...filterProps,
+                brightness: val,
+              });
+            }
+          }}
           value={typeof brightness === 'number' ? brightness : 0}
         />
         <Form.Item label="Invert" style={{ marginBottom: 6 }}>

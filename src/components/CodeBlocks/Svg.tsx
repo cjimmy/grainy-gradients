@@ -1,21 +1,23 @@
 import { Form } from 'antd';
 import hljs from 'highlight.js/lib/core';
 import React, { useEffect } from 'react';
-import shallow from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
+import { useInputStore, InputState, SvgPropsType } from '~/components/store';
 import { SectionTitle, SliderInput } from './subcomponents';
-import { useInputStore } from '~/components/store';
 
 export const SvgControls: React.FC = () => {
   const [svgProps, setSvgProps] = useInputStore(
-    (state) => [state.svgProps, state.setSvgProps],
-    shallow
+    useShallow((state: InputState): [SvgPropsType, (props: SvgPropsType) => void] => [
+      state.svgProps,
+      state.setSvgProps,
+    ])
   );
 
   const { size, baseFrequency, numOctaves } = svgProps;
 
-  useEffect(() => {
-    setSvgProps({ size, baseFrequency, numOctaves });
-  }, [size, baseFrequency, numOctaves, setSvgProps]);
+  // useEffect(() => {
+  //   setSvgProps({ size, baseFrequency, numOctaves });
+  // }, [size, baseFrequency, numOctaves, setSvgProps]);
 
   const svgString = `<!-- svg: first layer -->
 <svg viewBox='0 0 ${size} ${size}' xmlns='http://www.w3.org/2000/svg'>
@@ -46,7 +48,11 @@ export const SvgControls: React.FC = () => {
           name="size"
           min={1}
           max={400}
-          onChange={(newVal) => setSvgProps({ size: newVal, baseFrequency, numOctaves })}
+          onChange={(newVal) => {
+            if (svgProps.size !== newVal) {
+              setSvgProps({ ...svgProps, size: newVal });
+            }
+          }}
           tipFormatter={(v) => `${v}px`}
           value={typeof size === 'number' ? size : 1}
         />
@@ -56,7 +62,12 @@ export const SvgControls: React.FC = () => {
           min={0}
           max={10}
           step={0.01}
-          onChange={(newVal) => setSvgProps({ size, baseFrequency: newVal, numOctaves })}
+          onChange={(newVal) => {
+            const roundedNewVal = parseFloat(newVal.toFixed(2));
+            if (svgProps.baseFrequency !== roundedNewVal) {
+              setSvgProps({ ...svgProps, baseFrequency: roundedNewVal });
+            }
+          }}
           value={typeof baseFrequency === 'number' ? baseFrequency : 1}
         />
         <SliderInput
@@ -64,7 +75,11 @@ export const SvgControls: React.FC = () => {
           name="numOctaves"
           min={0}
           max={6}
-          onChange={(newVal) => setSvgProps({ size, baseFrequency, numOctaves: newVal })}
+          onChange={(newVal) => {
+            if (svgProps.numOctaves !== newVal) {
+              setSvgProps({ ...svgProps, numOctaves: newVal });
+            }
+          }}
           value={typeof numOctaves === 'number' ? numOctaves : 1}
         />
       </Form>

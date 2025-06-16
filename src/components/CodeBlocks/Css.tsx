@@ -1,17 +1,28 @@
 import { Form, Switch } from 'antd';
 import hljs from 'highlight.js/lib/core';
 import React from 'react';
+import { GradientControls } from '~/components/GradientControls';
+import {
+  AnyGradientType,
+  useInputStore,
+  InputState,
+  CssPropsType,
+  FilterPropsType,
+} from '~/components/store';
+import { useShallow } from 'zustand/react/shallow';
 import { rgbToString } from './Output';
 import { SectionTitle } from './subcomponents';
-import { GradientControls } from '~/components/GradientControls';
-import { AnyGradientType, useInputStore } from '~/components/store';
 
 export const CssControls: React.FC = () => {
-  const [cssProps, setCssProps, filterProps] = useInputStore((state) => [
-    state.cssProps,
-    state.setCssProps,
-    state.filterProps,
-  ]);
+  const [cssProps, setCssProps, filterProps] = useInputStore(
+    useShallow(
+      (state: InputState): [CssPropsType, (props: CssPropsType) => void, FilterPropsType] => [
+        state.cssProps,
+        state.setCssProps,
+        state.filterProps,
+      ]
+    )
+  );
   const { brightness, contrast } = filterProps;
   const { gradients, showTransparency } = cssProps;
 
