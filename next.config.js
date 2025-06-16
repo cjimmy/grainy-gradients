@@ -3,4 +3,5 @@ module.exports = {
   compiler: {
     styledComponents: { ssr: false },
   },
+  transpilePackages: ['antd', 'rc-util', '@ant-design/icons', 'rc-picker'],
 };

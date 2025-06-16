@@ -25,6 +25,7 @@ export type ColorStopType = {
 };
 
 type BaseGradientType = {
+  id: string;
   type: string;
   stops: ColorStopType[];
   isVisible: boolean;
@@ -69,6 +70,7 @@ const initialSvgProps = {
 };
 
 export const defaultGradient = {
+  id: `grad-${Math.random().toString(36).substr(2, 9)}`,
   type: 'linear',
   isVisible: true,
   angle: 0,
@@ -86,6 +88,7 @@ export const defaultGradient = {
 
 export function getRandomGradient(): AnyGradientType {
   return {
+    id: `grad-${Math.random().toString(36).substr(2, 9)}`,
     type: getRandomFrom(['linear', 'radial', 'conic']),
     isVisible: true,
     angle: getRandomFrom([0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330]),

@@ -72,12 +72,14 @@ export const FilterControls: React.FC = () => {
           max={1000}
           step={10}
           tipFormatter={(v) => `${v}%`}
-          onChange={(val: number) =>
-            setFilterProps({
-              ...filterProps,
-              contrast: val,
-            })
-          }
+          onChange={(val: number) => {
+            if (filterProps.contrast !== val) {
+              setFilterProps({
+                ...filterProps,
+                contrast: val,
+              });
+            }
+          }}
           value={typeof contrast === 'number' ? contrast : 10}
         />
         <SliderInput
@@ -87,12 +89,14 @@ export const FilterControls: React.FC = () => {
           max={1500}
           step={50}
           tipFormatter={(v) => `${v}%`}
-          onChange={(val: number) =>
-            setFilterProps({
-              ...filterProps,
-              brightness: val,
-            })
-          }
+          onChange={(val: number) => {
+            if (filterProps.brightness !== val) {
+              setFilterProps({
+                ...filterProps,
+                brightness: val,
+              });
+            }
+          }}
           value={typeof brightness === 'number' ? brightness : 0}
         />
         <Form.Item label="Invert" style={{ marginBottom: 6 }}>

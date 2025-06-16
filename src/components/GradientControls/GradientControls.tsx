@@ -21,8 +21,13 @@ export const GradientControls: React.FC = () => {
 
   const updateStateOfSelf = React.useCallback(
     (index: number, newData: AnyGradientType) => {
-      cssProps.gradients[index] = newData;
-      setCssProps({ ...cssProps });
+      const newGradients = cssProps.gradients.map((grad, i) =>
+        i === index ? newData : grad
+      );
+      setCssProps({
+        ...cssProps,
+        gradients: newGradients,
+      });
     },
     [cssProps, setCssProps]
   );
@@ -39,13 +44,16 @@ export const GradientControls: React.FC = () => {
   );
 
   const pushNewGradient = () => {
-    cssProps.gradients.push(getRandomGradient());
-    setCssProps(cssProps);
+    const newGradients = [...cssProps.gradients, getRandomGradient()];
+    setCssProps({
+      ...cssProps,
+      gradients: newGradients,
+    });
   };
 
   const gradientInterface = cssProps.gradients.map((grad, i) => (
     <GradientRow
-      key={i}
+      key={grad.id}
       gradient={grad}
       nGradients={cssProps.gradients.length}
       updateSelf={updateStateOfSelf}

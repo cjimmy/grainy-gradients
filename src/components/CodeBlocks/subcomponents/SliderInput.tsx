@@ -16,8 +16,28 @@ interface ISliderInput {
 }
 export const SliderInput: React.FC<ISliderInput> = (props) => {
   const { label, name, id, onChange, value, min, max, step, tipFormatter, disabled } = props;
+
+  const handleInputNumberChange = (valueFromAntInput: number | string | null) => {
+    let numericValue: number;
+
+    if (valueFromAntInput === null) {
+      numericValue = min; // Default to min if input is cleared
+    } else if (typeof valueFromAntInput === 'string') {
+      const parsed = parseFloat(valueFromAntInput); // parseFloat can handle strings like "100px" -> 100
+      numericValue = isNaN(parsed) ? min : parsed; // Default to min if parsing fails
+    } else { // It's a number
+      numericValue = valueFromAntInput;
+    }
+    
+    // Ensure the final numericValue is passed to the parent onChange
+    onChange(numericValue);
+  };
+
+  // Determine Form.Item name based on whether id is provided
+  const formItemName = id === undefined ? name : [name, id];
+
   return (
-    <Form.Item label={label} name={[name, id]} style={{ width: '100%', margin: 0 }}>
+    <Form.Item label={label} name={formItemName} style={{ width: '100%', margin: 0 }}>
       <SliderAndInput>
         <SliderContainer>
           <Slider
@@ -35,7 +55,7 @@ export const SliderInput: React.FC<ISliderInput> = (props) => {
           style={{ margin: '0 16px' }}
           min={min}
           value={value}
-          onChange={onChange}
+          onChange={handleInputNumberChange}
           formatter={tipFormatter}
           disabled={disabled}
         />

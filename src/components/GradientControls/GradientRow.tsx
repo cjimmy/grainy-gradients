@@ -60,7 +60,7 @@ export const GradientRow: React.FC<IGradientRow> = ({
               color={stops[0].color}
               style={{ padding: 0 }}
               onChange={(c: ChromePickerColor) =>
-                updateProp('stops', [{ color: c.rgb, offset: 1 }, stops[1]])
+                updateProp('stops', [{ color: c.rgb, offset: 0 }, stops[1]])
               }
             />
             <ColorPicker
@@ -99,7 +99,11 @@ export const GradientRow: React.FC<IGradientRow> = ({
             min={0}
             max={360}
             tipFormatter={(v) => `${v}°`}
-            onChange={(val: number) => updateProp('angle', val)}
+            onChange={(val: number) => {
+              if (gradient.angle !== val) {
+                updateProp('angle', val);
+              }
+            }}
             value={typeof gradient.angle === 'number' ? gradient.angle : 0}
             disabled={!isVisible}
           />
@@ -112,7 +116,11 @@ export const GradientRow: React.FC<IGradientRow> = ({
               id={`${selfIndex}`}
               min={-50}
               max={150}
-              onChange={(val: number) => updateProp('posX', val)}
+              onChange={(val: number) => {
+                if (gradient.posX !== val) {
+                  updateProp('posX', val);
+                }
+              }}
               value={typeof gradient.posX === 'number' ? gradient.posX : 0}
               disabled={!isVisible}
             />
@@ -122,7 +130,11 @@ export const GradientRow: React.FC<IGradientRow> = ({
               id={`${selfIndex}`}
               min={-50}
               max={150}
-              onChange={(val: number) => updateProp('posY', val)}
+              onChange={(val: number) => {
+                if (gradient.posY !== val) {
+                  updateProp('posY', val);
+                }
+              }}
               value={typeof gradient.posY === 'number' ? gradient.posY : 0}
               disabled={!isVisible}
             />
