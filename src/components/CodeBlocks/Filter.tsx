@@ -2,15 +2,29 @@ import { getGradientFirstParam } from '.';
 import { Form, Switch } from 'antd';
 import hljs from 'highlight.js/lib/core';
 import React, { useState } from 'react';
-import shallow from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
+import {
+  useInputStore,
+  SvgPropsType,
+  CssPropsType,
+  FilterPropsType,
+  InputState,
+} from '~/components/store';
 import { symbols, rgbToString } from './Output';
 import { SectionTitle, SliderInput } from './subcomponents';
-import { useInputStore } from '~/components/store';
 
 export const FilterControls: React.FC = () => {
   const [svgProps, cssProps, filterProps, setFilterProps] = useInputStore(
-    (state) => [state.svgProps, state.cssProps, state.filterProps, state.setFilterProps],
-    shallow
+    useShallow(
+      (
+        state: InputState
+      ): [SvgPropsType, CssPropsType, FilterPropsType, (props: FilterPropsType) => void] => [
+        state.svgProps,
+        state.cssProps,
+        state.filterProps,
+        state.setFilterProps,
+      ]
+    )
   );
   const { contrast, brightness, invert } = filterProps;
   const [inlineSvg, setInlineSvg] = useState(false);

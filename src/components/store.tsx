@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 
 function getRandomFrom<T>(arr: Array<T>): T {
   const randIndex = Math.trunc(Math.random() * 10) % arr.length;

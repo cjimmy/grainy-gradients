@@ -2,7 +2,6 @@ import { EyeOutlined, EyeInvisibleOutlined, DeleteOutlined } from '@ant-design/i
 import { Form, Select, Tooltip } from 'antd';
 import React from 'react';
 import styled from 'styled-components';
-import { ColorPicker, ChromePickerColor } from './ColorPicker';
 import { SliderInput } from '~/components/CodeBlocks/subcomponents';
 import {
   AnyGradientType,
@@ -10,6 +9,7 @@ import {
   ConicGradientType,
   RadialGradientType,
 } from '~/components/store';
+import { ColorPicker, ChromePickerColor } from './ColorPicker';
 
 interface IGradientRow {
   gradient: AnyGradientType;

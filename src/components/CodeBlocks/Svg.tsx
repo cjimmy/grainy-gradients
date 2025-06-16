@@ -1,14 +1,16 @@
 import { Form } from 'antd';
 import hljs from 'highlight.js/lib/core';
 import React, { useEffect } from 'react';
-import shallow from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
+import { useInputStore, InputState, SvgPropsType } from '~/components/store';
 import { SectionTitle, SliderInput } from './subcomponents';
-import { useInputStore } from '~/components/store';
 
 export const SvgControls: React.FC = () => {
   const [svgProps, setSvgProps] = useInputStore(
-    (state) => [state.svgProps, state.setSvgProps],
-    shallow
+    useShallow((state: InputState): [SvgPropsType, (props: SvgPropsType) => void] => [
+      state.svgProps,
+      state.setSvgProps,
+    ])
   );
 
   const { size, baseFrequency, numOctaves } = svgProps;

@@ -1,14 +1,22 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import React from 'react';
-import shallow from 'zustand/shallow';
-import { useInputStore, AnyGradientType, getRandomGradient } from '../store';
+import { useShallow } from 'zustand/react/shallow';
+import {
+  useInputStore,
+  AnyGradientType,
+  getRandomGradient,
+  InputState,
+  CssPropsType,
+} from '../store';
 import { GradientRow } from './GradientRow';
 
 export const GradientControls: React.FC = () => {
   const [cssProps, setCssProps] = useInputStore(
-    (state) => [state.cssProps, state.setCssProps],
-    shallow
+    useShallow((state: InputState): [CssPropsType, (props: CssPropsType) => void] => [
+      state.cssProps,
+      state.setCssProps,
+    ])
   );
 
   const updateStateOfSelf = React.useCallback(

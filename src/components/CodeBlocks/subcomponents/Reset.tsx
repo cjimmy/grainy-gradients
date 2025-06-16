@@ -1,9 +1,11 @@
 import { Button } from 'antd';
 import React from 'react';
-import shallow from 'zustand/shallow';
-import { useInputStore } from '~/components/store';
+import { useShallow } from 'zustand/react/shallow';
+import { useInputStore, InputState } from '~/components/store';
 
 export const Reset: React.FC = () => {
-  const [resetAllProps] = useInputStore((state) => [state.resetAllProps], shallow);
+  const [resetAllProps] = useInputStore(
+    useShallow((state: InputState): [() => void] => [state.resetAllProps])
+  );
   return <Button onClick={() => resetAllProps()}>Reset all</Button>;
 };
